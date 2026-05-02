@@ -1,0 +1,51 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-gray-200;
+  }
+  body {
+    @apply font-sans antialiased text-gray-700 bg-white;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply text-navy font-display font-bold tracking-tight;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .glass-card {
+    @apply bg-white/75 backdrop-blur-xl border border-white/20 shadow-md;
+  }
+
+  .premium-section {
+    @apply py-24 md:py-28;
+  }
+
+  .section-shell {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .gradient-btn {
+    @apply rounded-2xl bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl;
+  }
+
+  .premium-badge {
+    @apply inline-flex items-center rounded-full border border-primary-200 bg-primary-50/80 px-4 py-2 text-xs font-semibold tracking-[0.16em] text-primary-700 shadow-md backdrop-blur;
+  }
+
+  .section-divider {
+    @apply h-px w-24 rounded-full bg-gradient-to-r from-transparent via-primary-300/70 to-transparent mx-auto;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
