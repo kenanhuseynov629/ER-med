@@ -15,6 +15,7 @@ export default function RootLayout({
     <html lang="az">
       <head>
         <meta name="google-site-verification" content="tQHbUPBMDaWVaESARky9H8vzWNeOO88HRgt6co2uzwY" />
+        <link rel="icon" href="/er-med-logo.png" type="image/png" />
       </head>
       <body className="font-sans">
         {children}
