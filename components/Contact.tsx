@@ -8,30 +8,31 @@ import {
   Instagram,
 } from "lucide-react";
 import FadeInWhenVisible from "./FadeInWhenVisible";
+import { useLanguage } from "@/app/context/LanguageContext";
 
-const contactInfo = [
+const getContactInfo = (t: (key: string) => string) => [
   {
     icon: MapPin,
-    title: "Ünvan",
-    content: "Xaçmaz şəhəri, Hacı Zeynalabdin Tağıyev küçəsi 88",
-    subContent: "(8 N-li məktəbin yaxınlığı)",
+    title: t("contact.address"),
+    content: t("contact.addressDetail"),
+    subContent: t("contact.addressNear"),
   },
   {
     icon: Phone,
-    title: "Telefon",
+    title: t("contact.phone"),
     content: "023 3256633",
     subContent: "077 7336633",
   },
   {
     icon: Mail,
-    title: "E-poçt",
+    title: t("contact.email"),
     content: "ermedicalmmc@gmail.com",
   },
   {
     icon: Clock,
-    title: "İş Saatları",
-    content: "Həftə içi: 09:00 - 18:00",
-    subContent: "Şənbə: 09:00 - 15:00 | Bazar: İstirahət",
+    title: t("contact.hours"),
+    content: t("contact.hoursWeekday"),
+    subContent: t("contact.hoursSaturday"),
   },
 ];
 
@@ -44,19 +45,21 @@ const socialLinks = [
 ];
 
 export default function Contact() {
+  const { t } = useLanguage();
+  const contactInfo = getContactInfo(t);
   return (
     <section id="contact" className="premium-section bg-gradient-to-b from-sand-50 to-white">
       <div className="section-shell">
         <FadeInWhenVisible>
           <div className="text-center max-w-3xl mx-auto mb-14">
             <span className="inline-block bg-sand-100 text-primary-700 px-4 py-2 rounded-full text-sm font-semibold mb-4 border border-sand-200">
-              Əlaqə
+              {t("contact.badge")}
             </span>
             <h2 className="text-3xl md:text-5xl font-bold text-navy mb-4">
-              Bizimlə Əlaqə Saxlayın
+              {t("contact.title")}
             </h2>
             <p className="text-gray-600 text-lg">
-              Suallarınız və ya müraciətləriniz üçün bizimlə əlaqə saxlayın
+              {t("contact.description")}
             </p>
           </div>
         </FadeInWhenVisible>
@@ -86,7 +89,7 @@ export default function Contact() {
             {/* Social Links */}
             <FadeInWhenVisible delay={0.4}>
               <div className="pt-6 border-t border-slate-200">
-                <h3 className="font-bold text-navy mb-4">Sosial Media</h3>
+                <h3 className="font-bold text-navy mb-4">{t("contact.social")}</h3>
                 <div className="flex space-x-4">
                   {socialLinks.map((social) => (
                     <a

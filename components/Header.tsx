@@ -4,18 +4,21 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
+import { useLanguage } from "@/app/context/LanguageContext";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 const navLinks = [
-  { name: "Ana səhifə", href: "#home" },
-  { name: "Şöbələr", href: "#departments" },
-  { name: "Həkimlər", href: "#doctors" },
-  { name: "Haqqımızda", href: "#about" },
-  { name: "Əlaqə", href: "#contact" },
+  { key: "nav.home", href: "#home" },
+  { key: "nav.departments", href: "#departments" },
+  { key: "nav.doctors", href: "#doctors" },
+  { key: "nav.about", href: "#about" },
+  { key: "nav.contact", href: "#contact" },
 ];
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -60,27 +63,22 @@ export default function Header() {
           </a>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center justify-center space-x-8 flex-1">
             {navLinks.map((link) => (
               <a
-                key={link.name}
+                key={link.key}
                 href={link.href}
                 className="group relative text-gray-600 hover:text-primary-700 font-medium transition-colors duration-200"
               >
-                {link.name}
+                {t(link.key)}
                 <span className="absolute -bottom-1 left-0 h-0.5 w-0 rounded-full bg-primary-500 transition-all duration-300 group-hover:w-full" />
               </a>
             ))}
           </nav>
 
-          {/* CTA Button */}
-          <div className="hidden md:block">
-            <a
-              href="#contact"
-              className="gradient-btn px-6 py-2.5 font-semibold"
-            >
-              Əlaqə
-            </a>
+          {/* Language Switcher */}
+          <div className="hidden md:block w-fit">
+            <LanguageSwitcher />
           </div>
 
           {/* Mobile Menu Button */}
@@ -109,21 +107,17 @@ export default function Header() {
             <nav className="px-4 py-6 space-y-4">
               {navLinks.map((link) => (
                 <a
-                  key={link.name}
+                  key={link.key}
                   href={link.href}
                   className="block text-gray-600 hover:text-navy font-medium py-2"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  {link.name}
+                  {t(link.key)}
                 </a>
               ))}
-              <a
-                href="#contact"
-                className="block w-full text-center gradient-btn px-6 py-3 font-semibold mt-4"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Əlaqə
-              </a>
+              <div className="pt-4 border-t border-gray-100">
+                <LanguageSwitcher />
+              </div>
             </nav>
           </motion.div>
         )}

@@ -1,9 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Facebook, Instagram, Linkedin, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import { motion } from "framer-motion";
 import FadeInWhenVisible from "./FadeInWhenVisible";
+import DoctorModal from "./DoctorModal";
 import { Doctor, getDoctors } from "@/lib/supabase";
+import { useLanguage } from "@/app/context/LanguageContext";
 
 // Fallback colors for doctors without images
 const GRADIENT_COLORS = [
@@ -20,6 +23,9 @@ const GRADIENT_COLORS = [
 export default function Doctors() {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     loadDoctors();
@@ -52,15 +58,14 @@ export default function Doctors() {
         <FadeInWhenVisible>
           <div className="text-center max-w-3xl mx-auto mb-16">
             <span className="inline-block bg-sand-100 text-primary-700 px-4 py-2 rounded-full text-sm font-semibold mb-4 border border-sand-200">
-              Həkim Heyəti
+              {t("doctors.badge")}
             </span>
             <h2 className="text-3xl md:text-5xl font-bold text-navy mb-4">
-              Peşəkar Həkimlərimiz
+              {t("doctors.title")}
             </h2>
             <div className="section-divider mb-5" />
             <p className="text-gray-600 text-lg">
-              Təcrübəli və sertifikatlı həkimlərimiz sizin sağlamlığınız üçün
-              çalışır
+              {t("doctors.description")}
             </p>
           </div>
         </FadeInWhenVisible>
@@ -71,13 +76,22 @@ export default function Doctors() {
           </div>
         ) : doctors.length === 0 ? (
           <div className="text-center py-12 text-gray-500">
-            Hələ heç bir həkim əlavə edilməyib
+            {t("doctors.empty")}
           </div>
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {doctors.map((doctor, index) => (
               <FadeInWhenVisible key={doctor.id} delay={index * 0.1}>
-                <div className="group glass-card rounded-3xl overflow-hidden border border-sand-200 hover:border-primary-300 hover:shadow-premium hover:scale-[1.02] transition-all duration-300">
+                <motion.div
+                  onClick={() => {
+                    setSelectedDoctor(doctor);
+                    setIsModalOpen(true);
+                  }}
+                  whileHover={{ scale: 1.02, y: -5 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className="group glass-card rounded-3xl overflow-hidden border border-sand-200 hover:border-primary-300 hover:shadow-premium cursor-pointer bg-white/80 backdrop-blur-sm"
+                >
                   {/* Doctor Image */}
                   {doctor.image_url ? (
                     <div className="h-64 overflow-hidden p-4 pb-0">
@@ -90,55 +104,43 @@ export default function Doctors() {
                   ) : (
                     <div className="h-64 p-4 pb-0">
                       <div className={`h-full w-full rounded-2xl bg-gradient-to-br ${getGradientColor(index)} flex items-center justify-center`}>
-                      <div className="w-28 h-28 bg-white/20 rounded-full flex items-center justify-center">
-                        <span className="text-4xl font-bold text-white">
-                          {getInitials(doctor.name)}
-                        </span>
-                      </div>
+                        <div className="w-28 h-28 bg-white/20 rounded-full flex items-center justify-center">
+                          <span className="text-4xl font-bold text-white">
+                            {getInitials(doctor.name)}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   )}
 
                   {/* Info */}
                   <div className="p-6">
-                    <h3 className="text-xl font-bold text-navy mb-1">
+                    <h3 className="text-xl font-bold text-navy mb-1 group-hover:text-primary-700 transition-colors">
                       {doctor.name}
                     </h3>
                     <p className="text-primary-600 font-medium mb-3">
                       {doctor.specialty}
                     </p>
-                    <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                    <p className="text-gray-600 text-sm line-clamp-2">
                       {doctor.bio}
                     </p>
-
-                    {/* Social Links */}
-                    <div className="flex space-x-3">
-                      <a
-                        href="#"
-                        className="w-9 h-9 bg-sand-50 rounded-full flex items-center justify-center text-primary-600 hover:bg-primary-500 hover:text-white hover:shadow-md transition-all duration-200"
-                      >
-                        <Facebook className="w-4 h-4 stroke-[1.7]" />
-                      </a>
-                      <a
-                        href="#"
-                        className="w-9 h-9 bg-sand-50 rounded-full flex items-center justify-center text-primary-600 hover:bg-primary-500 hover:text-white hover:shadow-md transition-all duration-200"
-                      >
-                        <Instagram className="w-4 h-4 stroke-[1.7]" />
-                      </a>
-                      <a
-                        href="#"
-                        className="w-9 h-9 bg-sand-50 rounded-full flex items-center justify-center text-primary-600 hover:bg-primary-500 hover:text-white hover:shadow-md transition-all duration-200"
-                      >
-                        <Linkedin className="w-4 h-4 stroke-[1.7]" />
-                      </a>
-                    </div>
                   </div>
-                </div>
+                </motion.div>
               </FadeInWhenVisible>
             ))}
           </div>
         )}
       </div>
-    </section>
+
+      {/* Doctor Modal */}
+      <DoctorModal
+        doctor={selectedDoctor}
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedDoctor(null);
+        }}
+      />
+    </section >
   );
 }

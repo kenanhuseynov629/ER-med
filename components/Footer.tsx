@@ -1,25 +1,33 @@
 "use client";
 
 import { Heart } from "lucide-react";
+import { useLanguage } from "@/app/context/LanguageContext";
 
-const footerLinks = {
-  "Haqqımızda": ["Klinika", "Həkimlər", "Karyera", "Xəbərlər"],
-  "Xidmətlər": [
+const getFooterLinks = (t: (key: string) => string) => ({
+  [t("footer.about")]: [
+    t("footer.about.clinic"),
+    t("footer.about.doctors"),
+    t("footer.about.career"),
+    t("footer.about.news"),
+  ],
+  [t("footer.services")]: [
     "Kardiologiya",
     "Nevrologiya",
     "Pediatriya",
     "Laboratoriya",
   ],
-  "Dəstək": [
-    "Əlaqə",
-    "FAQ",
-    "Gizlilik Siyasəti",
-    "İstifadə Şərtləri",
+  [t("footer.support")]: [
+    t("footer.support.contact"),
+    t("footer.support.faq"),
+    t("footer.support.privacy"),
+    t("footer.support.terms"),
   ],
-};
+});
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const { t } = useLanguage();
+  const footerLinks = getFooterLinks(t);
 
   return (
     <footer className="bg-navy text-white relative overflow-hidden">
@@ -36,18 +44,17 @@ export default function Footer() {
               <span className="text-xl font-bold font-display">ER Med</span>
             </div>
             <p className="text-white/70 max-w-sm mb-6 leading-relaxed">
-              Sizin və ailənizin sağlamlığını qoruyuruq. Müasir tibbi
-              avadanlıqlar və peşəkar həkim heyəti ilə xidmətinizdəyik.
+              {t("footer.description")}
             </p>
             <p className="text-white/50 text-sm">
-              © {currentYear} ER Med Clinic. Bütün hüquqlar qorunur.
+              {t("footer.copyright").replace("{year}", String(currentYear))}
             </p>
           </div>
 
           {/* Links */}
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title}>
-              <h3 className="font-bold mb-4">{title}</h3>
+              <h3 className="font-bold mb-4 text-white">{title}</h3>
               <ul className="space-y-3">
                 {links.map((link) => (
                   <li key={link}>
@@ -67,7 +74,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="py-6 border-t border-white/10 flex flex-col sm:flex-row justify-center items-center">
           <p className="text-white/50 text-sm">
-            Hazırladı:{" "}
+            {t("footer.developed")}:{" "}
             <span className="text-white font-medium">Kənan Hüseynov</span>
           </p>
         </div>

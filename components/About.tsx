@@ -8,36 +8,38 @@ import {
   Sparkles,
 } from "lucide-react";
 import FadeInWhenVisible from "./FadeInWhenVisible";
+import { useLanguage } from "@/app/context/LanguageContext";
 
-const features = [
+const getFeatures = (t: (key: string) => string) => [
   {
     icon: Shield,
-    title: "Yüksək Gigiyena Standartları",
-    description:
-      "Klinikamız beynəlxalq gigiyena və təhlükəsizlik standartlarına tam uyğun fəaliyyət göstərir.",
+    title: t("about.features.hygiene"),
+    description: t("about.features.hygieneDesc"),
   },
   {
     icon: Microscope,
-    title: "Müasir Avadanlıqlar",
-    description:
-      "Ən son texnologiyalarla təchiz edilmiş diaqnostika və müalicə avadanlıqlarımız mövcuddur.",
+    title: t("about.features.equipment"),
+    description: t("about.features.equipmentDesc"),
   },
   {
     icon: HeartHandshake,
-    title: "Pasiyent Mərkəzli Yanaşma",
-    description:
-      "Hər bir pasiyentimizə fərdi yanaşma və xüsusi diqqət yetiririk.",
+    title: t("about.features.patient"),
+    description: t("about.features.patientDesc"),
   },
 ];
 
-const advantages = [
-  "Sertifikatlı həkim heyəti",
-  "Rahat qəbul sistemi",
-  "Sürətli laboratoriya nəticələri",
-  "Münasib qiymət siyasəti",
+const getAdvantages = (t: (key: string) => string) => [
+  t("about.advantages.certified"),
+  t("about.advantages.booking"),
+  t("about.advantages.lab"),
+  t("about.advantages.price"),
 ];
 
 export default function About() {
+  const { t } = useLanguage();
+  const features = getFeatures(t);
+  const advantages = getAdvantages(t);
+
   return (
     <section id="about" className="premium-section bg-white">
       <div className="section-shell">
@@ -49,10 +51,10 @@ export default function About() {
                 <div className="text-center p-8">
                   <Sparkles className="w-24 h-24 text-navy mx-auto mb-6" />
                   <p className="text-2xl font-bold text-navy mb-4">
-                    ER Med Clinic
+                    {t("about.clinicName")}
                   </p>
                   <p className="text-gray-600">
-                    Peşəkar tibbi xidmət və minlərlə məmnun pasiyent
+                    {t("about.clinicSlogan")}
                   </p>
                 </div>
               </div>
@@ -64,15 +66,13 @@ export default function About() {
           <div>
             <FadeInWhenVisible>
               <span className="inline-block bg-slate-50 text-navy px-4 py-2 rounded-full text-sm font-semibold mb-4 border border-slate-100">
-                Haqqımızda
+                {t("about.badge")}
               </span>
               <h2 className="text-3xl md:text-5xl font-bold text-navy mb-6">
-                Niyə ER Med Clinic?
+                {t("about.title")}
               </h2>
               <p className="text-gray-600 text-base mb-6 leading-relaxed">
-                Pasiyentlərimizin sağlamlığını qoruyuruq. Müasir tibbi
-                avadanlıqlar, peşəkar həkim heyəti və pasiyent mərkəzli
-                yanaşmamızla fərqlilirik.
+                {t("about.description")}
               </p>
             </FadeInWhenVisible>
 
@@ -100,7 +100,7 @@ export default function About() {
             {/* Advantages List */}
             <FadeInWhenVisible delay={0.4}>
               <div className="glass-card rounded-2xl p-5">
-                <h3 className="font-bold text-navy mb-4">Üstünlüklərimiz</h3>
+                <h3 className="font-bold text-navy mb-4">{t("about.advantages.title")}</h3>
                 <div className="grid sm:grid-cols-2 gap-3">
                   {advantages.map((advantage) => (
                     <div

@@ -10,26 +10,26 @@ const config: Config = {
     extend: {
       colors: {
         primary: {
-          50: "#F2F5FA",
-          100: "#E1E8F3",
-          200: "#C3D0E6",
-          300: "#A5B9D9",
-          400: "#879FCC",
-          500: "#6E88B0",
-          600: "#5E769E",
-          700: "#4D6388",
-          800: "#3D5070",
-          900: "#2B3A52",
+          50: "#E8F2FF",
+          100: "#D4E5FD",
+          200: "#A8CAFB",
+          300: "#7DAFF9",
+          400: "#5194F7",
+          500: "#1A73E8",
+          600: "#1557B0",
+          700: "#104288",
+          800: "#0B2D60",
+          900: "#061838",
         },
         navy: {
-          DEFAULT: "#2B3A52",
-          light: "#3D5070",
-          dark: "#1B2433",
+          DEFAULT: "#1A3A5C",
+          light: "#2A5A8C",
+          dark: "#0F2238",
         },
         sand: {
-          50: "#FCF8F4",
-          100: "#F8EFE7",
-          200: "#F2E0D0",
+          50: "#F8FAFC",
+          100: "#F1F5F9",
+          200: "#E2E8F0",
         },
       },
       fontFamily: {
@@ -42,11 +42,16 @@ const config: Config = {
       },
       animation: {
         "float-slow": "float 6s ease-in-out infinite",
+        "pulse-slow": "pulse-slow 3s ease-in-out infinite",
       },
       keyframes: {
         float: {
           "0%, 100%": { transform: "translateY(0px)" },
           "50%": { transform: "translateY(-10px)" },
+        },
+        "pulse-slow": {
+          "0%, 100%": { opacity: "1", transform: "scale(1)" },
+          "50%": { opacity: "0.85", transform: "scale(1.02)" },
         },
       },
     },

@@ -545,6 +545,23 @@ export default function AdminDashboardClient() {
     await loadData();
   };
 
+  const handleDeleteDoctorImage = async () => {
+    if (!doctorForm.image_url) return;
+    if (!confirm("Həkimin şəklini silmək istədiyinizə əminsiniz?")) return;
+
+    // Delete from storage
+    const success = await deleteDoctorImage(doctorForm.image_url);
+    if (success || !isSupabaseConfigured()) {
+      // Clear image from form
+      setDoctorForm({ ...doctorForm, image_url: "" });
+      // If editing existing doctor, update in database too
+      if (editingDoctor) {
+        await updateDoctor(editingDoctor.id, { image_url: null });
+        await loadData();
+      }
+    }
+  };
+
   // Department handlers
   const openDepartmentModal = (department?: Department) => {
     if (department) {
@@ -929,9 +946,19 @@ export default function AdminDashboardClient() {
                           alt="Current"
                           className="w-16 h-16 rounded-lg object-cover"
                         />
-                        <span className="text-sm text-gray-500">
-                          Cari şəkil
-                        </span>
+                        <div className="flex flex-col space-y-2">
+                          <span className="text-sm text-gray-500">
+                            Cari şəkil
+                          </span>
+                          <button
+                            type="button"
+                            onClick={handleDeleteDoctorImage}
+                            className="flex items-center space-x-1 text-sm text-red-600 hover:text-red-700 hover:bg-red-50 px-2 py-1 rounded-lg transition-colors"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                            <span>Şəkli sil</span>
+                          </button>
+                        </div>
                       </div>
                     )}
                     <div className="relative">

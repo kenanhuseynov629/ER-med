@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import FadeInWhenVisible from "./FadeInWhenVisible";
 import { Department, getDepartments } from "@/lib/supabase";
+import { useLanguage } from "@/app/context/LanguageContext";
 
 // Map icon names to actual Lucide icon components
 const ICON_MAP: Record<string, LucideIcon> = {
@@ -40,6 +41,7 @@ const DEFAULT_ICON = Stethoscope;
 export default function Departments() {
   const [departments, setDepartments] = useState<Department[]>([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useLanguage();
 
   useEffect(() => {
     loadDepartments();
@@ -63,15 +65,14 @@ export default function Departments() {
         <FadeInWhenVisible>
           <div className="text-center max-w-3xl mx-auto mb-14">
             <span className="inline-block bg-primary-50 text-navy px-4 py-2 rounded-full text-sm font-semibold mb-5 border border-primary-100">
-              Tibbi Şöbələr
+              {t("departments.badge")}
             </span>
             <h2 className="text-3xl md:text-5xl font-bold text-navy mb-4">
-              Xidmət Göstərdiyimiz Şöbələr
+              {t("departments.title")}
             </h2>
             <div className="section-divider mb-5" />
             <p className="text-gray-600 text-lg">
-              Hər bir şöbəmizdə peşəkar həkimlər və müasir avadanlıqlarla
-              xidmətinizdəyik
+              {t("departments.description")}
             </p>
           </div>
         </FadeInWhenVisible>
@@ -82,7 +83,7 @@ export default function Departments() {
           </div>
         ) : departments.length === 0 ? (
           <div className="text-center py-12 text-gray-500">
-            Hələ heç bir şöbə əlavə edilməyib
+            {t("departments.empty")}
           </div>
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-7">
