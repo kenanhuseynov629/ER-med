@@ -28,6 +28,30 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsMobileMenuOpen(false);
+    };
+
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+      window.addEventListener("resize", handleResize);
+      document.addEventListener("keydown", handleEscape);
+    }
+
+    return () => {
+      document.body.style.overflow = "unset";
+      window.removeEventListener("resize", handleResize);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [isMobileMenuOpen]);
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
@@ -43,20 +67,20 @@ export default function Header() {
             }`}
         >
           {/* Logo */}
-          <a href="#home" className="flex items-center gap-3 bg-transparent p-0 m-0">
+          <a href="#home" className="flex items-center gap-3 bg-transparent p-0 m-0 min-w-0">
             <Image
               src="/er-med-logo.png"
               alt="ER Med loqo"
               width={64}
               height={64}
-              className={`object-contain bg-transparent border-none shadow-none p-0 m-0 transition-all duration-300 ${isScrolled ? "w-12 h-12" : "w-14 h-14"}`}
+              className={`shrink-0 object-contain bg-transparent border-none shadow-none p-0 m-0 transition-all duration-300 ${isScrolled ? "w-10 h-10 sm:w-12 sm:h-12" : "w-11 h-11 sm:w-14 sm:h-14"}`}
               priority
             />
-            <div className="flex flex-col p-0 m-0 bg-transparent border-none shadow-none leading-none">
-              <span className="text-lg md:text-xl font-extrabold text-navy tracking-wider font-display">
+            <div className="flex flex-col p-0 m-0 bg-transparent border-none shadow-none leading-none min-w-0">
+              <span className="text-base sm:text-lg md:text-xl font-extrabold text-navy tracking-wider font-display whitespace-nowrap">
                 ER MED
               </span>
-              <span className="text-xs font-semibold text-primary-600 tracking-[0.24em] uppercase mt-1">
+              <span className="text-[10px] sm:text-xs font-semibold text-primary-600 tracking-[0.24em] uppercase mt-1 whitespace-nowrap">
                 KLINIK
               </span>
             </div>
@@ -85,6 +109,9 @@ export default function Header() {
           <button
             className="md:hidden p-2 text-navy rounded-xl hover:bg-white/70 transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label={isMobileMenuOpen ? "Menyunu bağla" : "Menyunu aç"}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-menu"
           >
             {isMobileMenuOpen ? (
               <X className="w-6 h-6" />
@@ -102,9 +129,9 @@ export default function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white/95 backdrop-blur-xl border-t border-white/50 shadow-soft"
+            className="md:hidden bg-white/95 backdrop-blur-xl border-t border-white/50 shadow-soft max-h-[calc(100vh-5rem)] overflow-y-auto"
           >
-            <nav className="px-4 py-6 space-y-4">
+            <nav id="mobile-menu" className="px-4 py-6 space-y-4">
               {navLinks.map((link) => (
                 <a
                   key={link.key}

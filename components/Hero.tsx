@@ -1,27 +1,41 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Stethoscope, Star } from "lucide-react";
+import {
+  ArrowRight,
+  CalendarCheck,
+  CheckCircle2,
+  Clock3,
+  HeartPulse,
+  PhoneCall,
+  ShieldCheck,
+  Stethoscope,
+} from "lucide-react";
 import Image from "next/image";
-import { useLanguage } from "@/app/context/LanguageContext";
+
+const quickStats = [
+  { value: "09:00", label: "qəbul başlanır" },
+  { value: "6 gün", label: "iş qrafiki" },
+  { value: "Xaçmaz", label: "ünvan" },
+];
+
+const carePoints = [
+  "Müasir diaqnostika",
+  "Ailə həkimi yanaşması",
+  "Rahat qəbul sistemi",
+];
 
 export default function Hero() {
-  const { t } = useLanguage();
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center pt-24 overflow-hidden"
+      className="relative min-h-screen flex items-center pt-24 sm:pt-28 overflow-hidden"
     >
-      {/* Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#F8FAFC] via-white to-[#E8F2FF] -z-10" />
+      <div className="absolute inset-0 bg-[linear-gradient(135deg,#f8fafc_0%,#ffffff_45%,#e8f2ff_100%)] -z-10" />
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-white to-transparent pointer-events-none" />
 
-      {/* Decorative Elements */}
-      <div className="absolute top-40 right-10 w-72 h-72 bg-[#1A73E8]/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-20 left-10 w-96 h-96 bg-[#D4E5FD]/30 rounded-full blur-3xl" />
-
-      <div className="section-shell py-20">
-        <div className="grid lg:grid-cols-2 gap-14 items-center">
-          {/* Left Content */}
+      <div className="section-shell py-16 sm:py-20">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -35,15 +49,17 @@ export default function Hero() {
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <span className="w-2 h-2 bg-[#1A73E8] rounded-full mr-2 animate-pulse"></span>
-              {t("hero.badge")}
+              ER Med Clinic - Xaçmaz
             </motion.span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-navy leading-tight">
-              {t("hero.title")}{" "}
-              <span className="text-primary-600">{t("hero.titleHighlight")}</span>
+              Sağlamlığınız üçün{" "}
+              <span className="text-primary-600">etibarlı klinika</span>
             </h1>
 
             <p className="text-lg text-gray-600 max-w-xl leading-relaxed">
-              {t("hero.description")}
+              ER Med Clinic müasir diaqnostika, təcrübəli həkim heyəti və
+              pasiyentə diqqətli yanaşma ilə ailənizin sağlamlığının yanında
+              dayanır.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3">
@@ -51,95 +67,118 @@ export default function Hero() {
                 href="#departments"
                 className="inline-flex items-center justify-center space-x-2 gradient-btn px-7 py-3.5 font-semibold group"
               >
-                <span>{t("hero.cta.services")}</span>
+                <span>Xidmətlərə baxın</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </a>
               <a
-                href="#contact"
-                className="inline-flex items-center justify-center space-x-2 bg-white/90 text-navy border border-primary-200 px-7 py-3.5 rounded-2xl font-semibold hover:border-primary-500 transition-all duration-200 shadow-soft"
+                href="tel:0777336633"
+                className="inline-flex items-center justify-center gap-2 bg-white/90 text-navy border border-primary-200 px-7 py-3.5 rounded-2xl font-semibold hover:border-primary-500 transition-all duration-200 shadow-soft"
               >
-                <span>{t("hero.cta.contact")}</span>
+                <PhoneCall className="w-5 h-5 text-primary-600" />
+                <span>Qəbula yazılın</span>
               </a>
             </div>
 
-            {/* Trust Indicators */}
-            <div className="flex items-center space-x-5 pt-4">
-              <div className="flex -space-x-3">
-                {[
-                  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
-                  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face",
-                  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
-                  "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face",
-                ].map((src, i) => (
-                  <div
-                    key={i}
-                    className="w-10 h-10 rounded-full border-2 border-white shadow-md overflow-hidden relative"
-                  >
-                    <Image
-                      src={src}
-                      alt={`${t("hero.trust.satisfied")} ${i + 1}`}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
-              <div className="flex items-center gap-2">
-                <div>
-                  <div className="flex items-center gap-1.5">
-                    <p className="text-[#1A3A5C] font-bold text-sm">{t("hero.trust.patients")}</p>
-                    <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                  </div>
-                  <p className="text-xs text-gray-500">{t("hero.trust.satisfied")}</p>
+            <div className="grid grid-cols-3 gap-3 max-w-xl">
+              {quickStats.map((stat) => (
+                <div
+                  key={stat.label}
+                  className="rounded-2xl bg-white/80 border border-slate-200 p-4 shadow-soft"
+                >
+                  <p className="text-2xl font-extrabold text-navy">{stat.value}</p>
+                  <p className="text-xs text-gray-500 mt-1">{stat.label}</p>
                 </div>
-              </div>
+              ))}
             </div>
-            <div className="section-divider !mx-0" />
+
+            <div className="flex flex-wrap gap-3">
+              {carePoints.map((point) => (
+                <span
+                  key={point}
+                  className="inline-flex items-center gap-2 rounded-full bg-white/80 border border-slate-200 px-4 py-2 text-sm font-semibold text-gray-700"
+                >
+                  <CheckCircle2 className="w-4 h-4 text-green-500" />
+                  {point}
+                </span>
+              ))}
+            </div>
           </motion.div>
 
-          {/* Right Content - Hero Image */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative"
           >
-            <div className="relative animate-float-slow">
-              {/* Main Image Placeholder */}
-              <div className="aspect-square rounded-[2.5rem] overflow-hidden shadow-[0_32px_64px_-24px_rgba(26,115,232,0.25)] bg-gradient-to-br from-[#F1F5F9] via-white to-[#D4E5FD] flex items-center justify-center border border-[#E2E8F0]">
-                <div className="text-center p-8">
-                  <div className="w-32 h-32 bg-white/50 rounded-full mx-auto mb-6 flex items-center justify-center">
-                    <Stethoscope className="w-16 h-16 text-navy" />
+            <div className="relative rounded-[2rem] bg-white border border-slate-200 shadow-[0_32px_80px_-32px_rgba(15,35,56,0.35)] overflow-hidden">
+              <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-r from-primary-600 to-navy" />
+              <div className="relative p-5 sm:p-7">
+                <div className="flex items-center justify-between text-white mb-8">
+                  <div className="flex items-center gap-3">
+                    <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center shadow-lg">
+                      <Image
+                        src="/er-med-logo.png"
+                        alt="ER Med Clinic"
+                        width={44}
+                        height={44}
+                        className="object-contain"
+                        priority
+                      />
+                    </div>
+                    <div>
+                      <p className="text-xl font-extrabold">ER Med Clinic</p>
+                      <p className="text-white/75 text-sm">Peşəkar tibbi xidmət</p>
+                    </div>
                   </div>
-                  <p className="text-navy font-medium text-lg">
-                    {t("hero.image.clinic")}
-                  </p>
-                  <p className="text-gray-600 text-sm mt-2">
-                    {t("hero.image.service")}
-                  </p>
+                  <ShieldCheck className="w-8 h-8 text-white/80" />
+                </div>
+
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="rounded-2xl bg-slate-50 border border-slate-200 p-5">
+                    <div className="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center mb-4">
+                      <Stethoscope className="w-6 h-6 text-primary-700" />
+                    </div>
+                    <p className="font-bold text-navy">Həkim konsultasiyası</p>
+                    <p className="text-sm text-gray-600 mt-2">
+                      Admin paneldə aktiv olan həkim və şöbələr üzrə qəbul.
+                    </p>
+                  </div>
+                  <div className="rounded-2xl bg-slate-50 border border-slate-200 p-5">
+                    <div className="w-12 h-12 rounded-xl bg-green-50 flex items-center justify-center mb-4">
+                      <HeartPulse className="w-6 h-6 text-green-600" />
+                    </div>
+                    <p className="font-bold text-navy">Diaqnostika</p>
+                    <p className="text-sm text-gray-600 mt-2">
+                      Müayinə, laborator analiz və fərdi müalicə planı.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="mt-4 rounded-2xl bg-navy text-white p-5">
+                  <div className="flex items-start gap-4">
+                    <CalendarCheck className="w-7 h-7 text-primary-200 shrink-0" />
+                    <div>
+                      <p className="font-bold">Bu gün qəbul üçün əlaqə</p>
+                      <p className="text-white/75 text-sm mt-1">
+                        Növbə və həkim seçimi üçün klinika ilə birbaşa danışın.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mt-5 grid sm:grid-cols-2 gap-3">
+                    <a
+                      href="tel:0233256633"
+                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-white text-navy px-4 py-3 font-bold"
+                    >
+                      <PhoneCall className="w-4 h-4" />
+                      023 3256633
+                    </a>
+                    <div className="inline-flex items-center justify-center gap-2 rounded-xl bg-white/10 px-4 py-3 font-semibold">
+                      <Clock3 className="w-4 h-4" />
+                      09:00 - 18:00
+                    </div>
+                  </div>
                 </div>
               </div>
-
-              {/* Floating Card */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-                className="absolute -bottom-4 -left-4 md:-bottom-6 md:-left-6 glass-card p-5"
-              >
-                <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-[#1A73E8] to-[#1557B0] rounded-full flex items-center justify-center shadow-lg shadow-blue-500/25">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="font-bold text-navy">{t("hero.card.certified")}</p>
-                    <p className="text-sm text-gray-500">{t("hero.card.doctors")}</p>
-                  </div>
-                </div>
-              </motion.div>
-
             </div>
           </motion.div>
         </div>

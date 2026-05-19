@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import FadeInWhenVisible from "./FadeInWhenVisible";
@@ -8,16 +8,13 @@ import DoctorModal from "./DoctorModal";
 import { Doctor, getDoctors } from "@/lib/supabase";
 import { useLanguage } from "@/app/context/LanguageContext";
 
-// Fallback colors for doctors without images
 const GRADIENT_COLORS = [
   "from-blue-400 to-blue-600",
-  "from-purple-400 to-purple-600",
   "from-green-400 to-green-600",
-  "from-pink-400 to-pink-600",
   "from-cyan-400 to-cyan-600",
   "from-orange-400 to-orange-600",
-  "from-red-400 to-red-600",
   "from-teal-400 to-teal-600",
+  "from-rose-400 to-rose-600",
 ];
 
 export default function Doctors() {
@@ -38,12 +35,10 @@ export default function Doctors() {
     setLoading(false);
   };
 
-  // Helper to get gradient color for doctor
   const getGradientColor = (index: number) => {
     return GRADIENT_COLORS[index % GRADIENT_COLORS.length];
   };
 
-  // Helper to get initials from name
   const getInitials = (name: string) => {
     const parts = name.split(" ");
     if (parts.length > 1) {
@@ -53,7 +48,10 @@ export default function Doctors() {
   };
 
   return (
-    <section id="doctors" className="premium-section bg-gradient-to-b from-sand-50 to-white">
+    <section
+      id="doctors"
+      className="premium-section bg-gradient-to-b from-sand-50 to-white scroll-mt-24"
+    >
       <div className="section-shell">
         <FadeInWhenVisible>
           <div className="text-center max-w-3xl mx-auto mb-16">
@@ -79,7 +77,7 @@ export default function Doctors() {
             {t("doctors.empty")}
           </div>
         ) : (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {doctors.map((doctor, index) => (
               <FadeInWhenVisible key={doctor.id} delay={index * 0.1}>
                 <motion.div
@@ -92,9 +90,8 @@ export default function Doctors() {
                   transition={{ duration: 0.2, ease: "easeOut" }}
                   className="group glass-card rounded-3xl overflow-hidden border border-sand-200 hover:border-primary-300 hover:shadow-premium cursor-pointer bg-white/80 backdrop-blur-sm"
                 >
-                  {/* Doctor Image */}
                   {doctor.image_url ? (
-                    <div className="h-64 overflow-hidden p-4 pb-0">
+                    <div className="h-56 sm:h-64 overflow-hidden p-4 pb-0">
                       <img
                         src={doctor.image_url}
                         alt={doctor.name}
@@ -102,8 +99,10 @@ export default function Doctors() {
                       />
                     </div>
                   ) : (
-                    <div className="h-64 p-4 pb-0">
-                      <div className={`h-full w-full rounded-2xl bg-gradient-to-br ${getGradientColor(index)} flex items-center justify-center`}>
+                    <div className="h-56 sm:h-64 p-4 pb-0">
+                      <div
+                        className={`h-full w-full rounded-2xl bg-gradient-to-br ${getGradientColor(index)} flex items-center justify-center`}
+                      >
                         <div className="w-28 h-28 bg-white/20 rounded-full flex items-center justify-center">
                           <span className="text-4xl font-bold text-white">
                             {getInitials(doctor.name)}
@@ -113,8 +112,7 @@ export default function Doctors() {
                     </div>
                   )}
 
-                  {/* Info */}
-                  <div className="p-6">
+                  <div className="p-5 sm:p-6">
                     <h3 className="text-xl font-bold text-navy mb-1 group-hover:text-primary-700 transition-colors">
                       {doctor.name}
                     </h3>
@@ -132,7 +130,6 @@ export default function Doctors() {
         )}
       </div>
 
-      {/* Doctor Modal */}
       <DoctorModal
         doctor={selectedDoctor}
         isOpen={isModalOpen}
@@ -141,6 +138,6 @@ export default function Doctors() {
           setSelectedDoctor(null);
         }}
       />
-    </section >
+    </section>
   );
 }

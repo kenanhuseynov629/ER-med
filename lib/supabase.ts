@@ -48,6 +48,11 @@ export const DEPARTMENT_ICONS = [
 
 // Doctors API
 export async function getDoctors(): Promise<Doctor[]> {
+  if (!isSupabaseConfigured()) {
+    console.warn('Supabase not configured. Returning empty doctors array.');
+    return [];
+  }
+
   const { data, error } = await supabase
     .from('doctors')
     .select('*')

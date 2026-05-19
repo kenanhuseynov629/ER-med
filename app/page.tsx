@@ -4,6 +4,8 @@ import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import Stats from "@/components/Stats";
+import CareProcess from "@/components/CareProcess";
 
 // Dynamically import components that fetch from Supabase to avoid SSR issues
 const Departments = dynamic(() => import("@/components/Departments"), {
@@ -24,8 +26,10 @@ export default function Home() {
         className="h-14 md:h-20 bg-gradient-to-b from-slate-50 via-white to-white"
       />
       <Departments />
+      <Stats />
       <Doctors />
       <About />
+      <CareProcess />
       <Contact />
       <Footer />
     </main>

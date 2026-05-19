@@ -1,26 +1,33 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
-  HeartPulse,
-  Brain,
-  Baby,
-  Eye,
-  Bone,
-  Microscope,
   Activity,
+  Apple,
+  Baby,
+  Badge,
+  Bone,
+  Brain,
+  Clipboard,
+  Ear,
+  Eye,
+  FlaskConical,
+  HeartPulse,
+  Loader2,
+  LucideIcon,
+  Microscope,
   Pill,
+  Scissors,
+  Smile,
+  Sparkles,
   Stethoscope,
   Syringe,
   Thermometer,
-  Loader2,
-  LucideIcon,
 } from "lucide-react";
 import FadeInWhenVisible from "./FadeInWhenVisible";
 import { Department, getDepartments } from "@/lib/supabase";
 import { useLanguage } from "@/app/context/LanguageContext";
 
-// Map icon names to actual Lucide icon components
 const ICON_MAP: Record<string, LucideIcon> = {
   HeartPulse,
   Brain,
@@ -33,9 +40,16 @@ const ICON_MAP: Record<string, LucideIcon> = {
   Stethoscope,
   Syringe,
   Thermometer,
+  Badge,
+  Ear,
+  Smile,
+  Scissors,
+  FlaskConical,
+  Apple,
+  Clipboard,
+  Sparkles,
 };
 
-// Default icon if not found
 const DEFAULT_ICON = Stethoscope;
 
 export default function Departments() {
@@ -54,13 +68,12 @@ export default function Departments() {
     setLoading(false);
   };
 
-  // Get icon component by name
   const getIconComponent = (iconName: string): LucideIcon => {
     return ICON_MAP[iconName] || DEFAULT_ICON;
   };
 
   return (
-    <section id="departments" className="premium-section bg-white">
+    <section id="departments" className="premium-section bg-white scroll-mt-24">
       <div className="section-shell">
         <FadeInWhenVisible>
           <div className="text-center max-w-3xl mx-auto mb-14">
@@ -86,13 +99,13 @@ export default function Departments() {
             {t("departments.empty")}
           </div>
         ) : (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-7">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-7">
             {departments.map((dept, index) => {
               const IconComponent = getIconComponent(dept.icon);
               return (
                 <FadeInWhenVisible key={dept.id} delay={index * 0.1}>
-                  <div className="group rounded-3xl p-7 bg-gradient-to-b from-white to-sand-50 border border-sand-200 shadow-soft hover:shadow-premium hover:-translate-y-1 transition-all duration-300">
-                    <div className="w-14 h-14 bg-sand-100 rounded-2xl flex items-center justify-center mb-5 group-hover:bg-primary-500 transition-colors duration-300">
+                  <div className="group h-full rounded-3xl p-6 sm:p-7 bg-white border border-slate-200 shadow-soft hover:shadow-premium hover:-translate-y-1 transition-all duration-300">
+                    <div className="w-14 h-14 bg-primary-50 rounded-2xl flex items-center justify-center mb-5 group-hover:bg-primary-500 transition-colors duration-300">
                       <IconComponent className="w-7 h-7 stroke-[1.7] text-primary-700 group-hover:text-white transition-colors duration-300" />
                     </div>
                     <h3 className="text-xl font-bold text-navy mb-3">

@@ -5,7 +5,9 @@ import {
   Shield,
   Microscope,
   HeartHandshake,
-  Sparkles,
+  ClipboardCheck,
+  HeartPulse,
+  Stethoscope,
 } from "lucide-react";
 import FadeInWhenVisible from "./FadeInWhenVisible";
 import { useLanguage } from "@/app/context/LanguageContext";
@@ -41,21 +43,41 @@ export default function About() {
   const advantages = getAdvantages(t);
 
   return (
-    <section id="about" className="premium-section bg-white">
+    <section id="about" className="premium-section bg-white scroll-mt-24">
       <div className="section-shell">
         <div className="grid lg:grid-cols-2 gap-14 items-center">
           {/* Left - Image */}
           <FadeInWhenVisible direction="left">
             <div className="relative">
-              <div className="aspect-[4/5] rounded-[2rem] overflow-hidden bg-gradient-to-br from-slate-100 via-blue-50 to-primary-200 shadow-premium border border-white/80 flex items-center justify-center">
-                <div className="text-center p-8">
-                  <Sparkles className="w-24 h-24 text-navy mx-auto mb-6" />
-                  <p className="text-2xl font-bold text-navy mb-4">
-                    {t("about.clinicName")}
-                  </p>
-                  <p className="text-gray-600">
-                    {t("about.clinicSlogan")}
-                  </p>
+              <div className="aspect-[4/5] rounded-[2rem] overflow-hidden bg-white shadow-premium border border-slate-200">
+                <div className="h-full p-6 flex flex-col justify-between bg-[linear-gradient(160deg,#ffffff_0%,#f8fafc_48%,#e8f2ff_100%)]">
+                  <div>
+                    <div className="inline-flex items-center gap-2 rounded-full bg-primary-50 border border-primary-100 px-4 py-2 text-sm font-bold text-primary-700">
+                      <HeartPulse className="w-4 h-4" />
+                      Klinik baxış
+                    </div>
+                    <h3 className="mt-6 text-3xl font-extrabold text-navy">
+                      Dəqiq diaqnoz, aydın izah, düzgün yönləndirmə.
+                    </h3>
+                  </div>
+
+                  <div className="space-y-3">
+                    {[
+                      { icon: Stethoscope, text: "İlkin müayinə və həkim konsultasiyası" },
+                      { icon: Microscope, text: "Laborator analiz və diaqnostik dəstək" },
+                      { icon: ClipboardCheck, text: "Müalicə planı və təkrar nəzarət" },
+                    ].map((item) => (
+                      <div
+                        key={item.text}
+                        className="flex items-center gap-3 rounded-2xl bg-white/85 border border-slate-200 p-4 shadow-soft"
+                      >
+                        <div className="w-11 h-11 rounded-xl bg-slate-50 flex items-center justify-center">
+                          <item.icon className="w-5 h-5 text-primary-700" />
+                        </div>
+                        <p className="font-semibold text-navy text-sm">{item.text}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
 
@@ -80,11 +102,11 @@ export default function About() {
             <div className="grid sm:grid-cols-2 gap-4 mb-6">
               {features.map((feature, index) => (
                 <FadeInWhenVisible key={feature.title} delay={index * 0.1}>
-                  <div className="flex items-start space-x-4 p-4 rounded-2xl border border-slate-100 hover:border-primary-200 transition-colors bg-slate-50/70">
+                  <div className="flex items-start gap-4 p-4 rounded-2xl border border-slate-100 hover:border-primary-200 transition-colors bg-slate-50/70">
                     <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center flex-shrink-0 shadow-soft">
                       <feature.icon className="w-6 h-6 text-navy stroke-[1.7]" />
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <h3 className="font-bold text-navy mb-1">
                         {feature.title}
                       </h3>

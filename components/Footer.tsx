@@ -11,10 +11,9 @@ const getFooterLinks = (t: (key: string) => string) => ({
     t("footer.about.news"),
   ],
   [t("footer.services")]: [
-    "Kardiologiya",
-    "Nevrologiya",
-    "Pediatriya",
-    "Laboratoriya",
+    t("nav.departments"),
+    t("nav.doctors"),
+    t("nav.contact"),
   ],
   [t("footer.support")]: [
     t("footer.support.contact"),
@@ -33,9 +32,7 @@ export default function Footer() {
     <footer className="bg-navy text-white relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-tr from-navy via-navy-light to-primary-900 pointer-events-none" />
       <div className="section-shell relative">
-        {/* Main Footer */}
         <div className="py-16 grid sm:grid-cols-2 lg:grid-cols-5 gap-8">
-          {/* Brand */}
           <div className="lg:col-span-2">
             <div className="flex items-center space-x-2 mb-6">
               <div className="w-10 h-10 bg-sand-200 rounded-lg flex items-center justify-center">
@@ -51,7 +48,6 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Links */}
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title}>
               <h3 className="font-bold mb-4 text-white">{title}</h3>
@@ -71,7 +67,6 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* Bottom Bar */}
         <div className="py-6 border-t border-white/10 flex flex-col sm:flex-row justify-center items-center">
           <p className="text-white/50 text-sm">
             {t("footer.developed")}:{" "}

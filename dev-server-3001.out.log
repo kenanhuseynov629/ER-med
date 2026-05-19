@@ -1,0 +1,21 @@
+
+> er-med-clinic@1.0.0 dev
+> next dev -p 3001
+
+  ▲ Next.js 14.2.0
+  - Local:        http://localhost:3001
+  - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 2.1s
+ ○ Compiling / ...
+ ✓ Compiled / in 8.6s (1439 modules)
+ GET / 200 in 8775ms
+ GET / 200 in 5942ms
+ GET /_next/static/webpack/2db2fc71ccc9c412.webpack.hot-update.json 404 in 9030ms
+ ✓ Compiled in 543ms (719 modules)
+ GET / 200 in 231ms
+ GET /_next/static/webpack/2db2fc71ccc9c412.webpack.hot-update.json 404 in 36ms
+ GET / 200 in 52ms
+ GET / 200 in 66ms
+ GET / 200 in 50ms
