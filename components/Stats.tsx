@@ -2,29 +2,32 @@
 
 import { CalendarDays, Clock3, MapPin } from "lucide-react";
 import FadeInWhenVisible from "./FadeInWhenVisible";
+import { useLanguage } from "@/app/context/LanguageContext";
 
-const stats = [
+const getStats = (t: (key: string) => string) => [
   {
     icon: Clock3,
     number: "09:00",
-    label: "Qəbul başlanır",
-    description: "Həftə içi klinika qəbulu",
+    label: t("stats.start"),
+    description: t("stats.startDesc"),
   },
   {
     icon: CalendarDays,
     number: "6 gün",
-    label: "İş qrafiki",
-    description: "Həftə içi və şənbə günü xidmət",
+    label: t("stats.schedule"),
+    description: t("stats.scheduleDesc"),
   },
   {
     icon: MapPin,
     number: "Xaçmaz",
-    label: "Ünvan",
-    description: "H. Z. Tağıyev küçəsi 88",
+    label: t("stats.location"),
+    description: t("stats.locationDesc"),
   },
 ];
 
 export default function Stats() {
+  const { t } = useLanguage();
+  const stats = getStats(t);
   return (
     <section className="py-10 bg-white">
       <div className="section-shell">

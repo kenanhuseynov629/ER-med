@@ -96,6 +96,54 @@ const az = {
     "ER Med Clinic ailənizin sağlamlığı üçün müasir, səliqəli və peşəkar tibbi xidmət təqdim edir.",
   "footer.copyright": "© {year} ER Med Clinic. Bütün hüquqlar qorunur.",
   "footer.developed": "Hazırladı",
+
+  // Hero section
+  "hero.quickStats.start": "qəbul başlanır",
+  "hero.quickStats.schedule": "iş qrafiki",
+  "hero.quickStats.location": "ünvan",
+  "hero.carePoints.modern": "Müasir diaqnostika",
+  "hero.carePoints.family": "Ailə həkimi yanaşması",
+  "hero.carePoints.booking": "Rahat qəbul sistemi",
+  "hero.card.consultation": "Həkim konsultasiyası",
+  "hero.card.consultationDesc": "Admin paneldə aktiv olan həkim və şöbələr üzrə qəbul.",
+  "hero.card.diagnosis": "Diaqnostika",
+  "hero.card.diagnosisDesc": "Müayinə, laborator analiz və fərdi müalicə planı.",
+  "hero.card.todayContact": "Bu gün qəbul üçün əlaqə",
+  "hero.card.todayContactDesc": "Növbə və həkim seçimi üçün klinika ilə birbaşa danışın.",
+  "hero.card.professionalService": "Peşəkar tibbi xidmət",
+
+  // About section
+  "about.clinicView": "Klinik baxış",
+  "about.slogan": "Dəqiq diaqnoz, aydın izah, düzgün yönləndirmə.",
+  "about.exam": "İlkin müayinə və həkim konsultasiyası",
+  "about.lab": "Laborator analiz və diaqnostik dəstək",
+  "about.treatment": "Müalicə planı və təkrar nəzarət",
+
+  // Stats section
+  "stats.start": "Qəbul başlanır",
+  "stats.startDesc": "Həftə içi klinika qəbulu",
+  "stats.schedule": "İş qrafiki",
+  "stats.scheduleDesc": "Həftə içi və şənbə günü xidmət",
+  "stats.location": "Ünvan",
+  "stats.locationDesc": "H. Z. Tağıyev küçəsi 88",
+
+  // CareProcess section
+  "careProcess.badge": "Qəbul prosesi",
+  "careProcess.title": "Klinikaya müraciət sadə və aydındır",
+  "careProcess.description": "Pasiyentin vaxtına hörmət edən, izahlı və rahat tibbi xidmət modeli.",
+  "careProcess.step1.title": "Əlaqə və qeydiyyat",
+  "careProcess.step1.desc": "Klinika ilə əlaqə saxlayın, uyğun həkim və qəbul vaxtı seçilsin.",
+  "careProcess.step2.title": "Müayinə",
+  "careProcess.step2.desc": "Şikayətləriniz dinlənilir, ilkin baxış və lazımi analizlər təyin edilir.",
+  "careProcess.step3.title": "Müalicə planı",
+  "careProcess.step3.desc": "Həkim nəticələri izah edir və sizin üçün aydın müalicə planı hazırlayır.",
+  "careProcess.step4.title": "Nəzarət",
+  "careProcess.step4.desc": "Təkrar baxış və nəticələrin izlənməsi ilə proses diqqətdə saxlanılır.",
+
+  // Gallery section
+  "gallery.badge": "Qalereya",
+  "gallery.title": "Klinika şəkilləri",
+  "gallery.description": "ER Med Clinic-in müasir infrastrukturu və şəraitindən şəkillər.",
 };
 
 const en: typeof az = {
@@ -133,6 +181,54 @@ const en: typeof az = {
     "ER Med Clinic provides modern, organized, and professional medical care for your family.",
   "footer.copyright": "© {year} ER Med Clinic. All rights reserved.",
   "footer.developed": "Developed by",
+
+  // Hero section
+  "hero.quickStats.start": "admission starts",
+  "hero.quickStats.schedule": "work schedule",
+  "hero.quickStats.location": "location",
+  "hero.carePoints.modern": "Modern diagnostics",
+  "hero.carePoints.family": "Family doctor approach",
+  "hero.carePoints.booking": "Convenient booking system",
+  "hero.card.consultation": "Doctor consultation",
+  "hero.card.consultationDesc": "Appointments with active doctors and departments from admin panel.",
+  "hero.card.diagnosis": "Diagnostics",
+  "hero.card.diagnosisDesc": "Examination, lab analysis and personalized treatment plan.",
+  "hero.card.todayContact": "Contact for today's appointment",
+  "hero.card.todayContactDesc": "Speak directly with the clinic for queue and doctor selection.",
+  "hero.card.professionalService": "Professional medical service",
+
+  // About section
+  "about.clinicView": "Clinic view",
+  "about.slogan": "Accurate diagnosis, clear explanation, proper guidance.",
+  "about.exam": "Initial examination and doctor consultation",
+  "about.lab": "Laboratory analysis and diagnostic support",
+  "about.treatment": "Treatment plan and follow-up monitoring",
+
+  // Stats section
+  "stats.start": "Admission starts",
+  "stats.startDesc": "Weekday clinic admission",
+  "stats.schedule": "Work schedule",
+  "stats.scheduleDesc": "Weekday and Saturday service",
+  "stats.location": "Location",
+  "stats.locationDesc": "H. Z. Taghiyev Street 88",
+
+  // CareProcess section
+  "careProcess.badge": "Admission process",
+  "careProcess.title": "Visiting the clinic is simple and clear",
+  "careProcess.description": "A medical service model that respects patient time, provides clear explanations and comfort.",
+  "careProcess.step1.title": "Contact and registration",
+  "careProcess.step1.desc": "Contact the clinic, suitable doctor and appointment time will be selected.",
+  "careProcess.step2.title": "Examination",
+  "careProcess.step2.desc": "Your complaints are listened to, initial examination and necessary tests are assigned.",
+  "careProcess.step3.title": "Treatment plan",
+  "careProcess.step3.desc": "Doctor explains results and prepares a clear treatment plan for you.",
+  "careProcess.step4.title": "Monitoring",
+  "careProcess.step4.desc": "The process is maintained with follow-up visits and result tracking.",
+
+  // Gallery section
+  "gallery.badge": "Gallery",
+  "gallery.title": "Clinic photos",
+  "gallery.description": "Photos of ER Med Clinic's modern infrastructure and facilities.",
 };
 
 const ru: typeof az = {
@@ -170,6 +266,54 @@ const ru: typeof az = {
     "ER Med Clinic предоставляет современную и профессиональную медицинскую помощь для вашей семьи.",
   "footer.copyright": "© {year} ER Med Clinic. Все права защищены.",
   "footer.developed": "Разработал",
+
+  // Hero section
+  "hero.quickStats.start": "прием начинается",
+  "hero.quickStats.schedule": "график работы",
+  "hero.quickStats.location": "адрес",
+  "hero.carePoints.modern": "Современная диагностика",
+  "hero.carePoints.family": "Подход семейного врача",
+  "hero.carePoints.booking": "Удобная система записи",
+  "hero.card.consultation": "Консультация врача",
+  "hero.card.consultationDesc": "Прием с активными врачами и отделениями из админ-панели.",
+  "hero.card.diagnosis": "Диагностика",
+  "hero.card.diagnosisDesc": "Осмотр, лабораторный анализ и индивидуальный план лечения.",
+  "hero.card.todayContact": "Контакт для приема сегодня",
+  "hero.card.todayContactDesc": "Свяжитесь напрямую с клиникой для выбора очереди и врача.",
+  "hero.card.professionalService": "Профессиональная медицинская услуга",
+
+  // About section
+  "about.clinicView": "Вид клиники",
+  "about.slogan": "Точный диагноз, ясное объяснение, правильное направление.",
+  "about.exam": "Первичный осмотр и консультация врача",
+  "about.lab": "Лабораторный анализ и диагностическая поддержка",
+  "about.treatment": "План лечения и последующий мониторинг",
+
+  // Stats section
+  "stats.start": "Прием начинается",
+  "stats.startDesc": "Будничный прием в клинике",
+  "stats.schedule": "График работы",
+  "stats.scheduleDesc": "Обслуживание в будние и субботу",
+  "stats.location": "Адрес",
+  "stats.locationDesc": "Улица Г. З. Тагиева 88",
+
+  // CareProcess section
+  "careProcess.badge": "Процесс приема",
+  "careProcess.title": "Посещение клиники просто и понятно",
+  "careProcess.description": "Модель медицинской услуги, уважающая время пациента, с ясными объяснениями и комфортом.",
+  "careProcess.step1.title": "Контакт и регистрация",
+  "careProcess.step1.desc": "Свяжитесь с клиникой, будет выбран подходящий врач и время приема.",
+  "careProcess.step2.title": "Осмотр",
+  "careProcess.step2.desc": "Ваши жалобы выслушиваются, назначается первичный осмотр и необходимые анализы.",
+  "careProcess.step3.title": "План лечения",
+  "careProcess.step3.desc": "Врач объясняет результаты и готовит для вас ясный план лечения.",
+  "careProcess.step4.title": "Мониторинг",
+  "careProcess.step4.desc": "Процесс поддерживается повторными визитами и отслеживанием результатов.",
+
+  // Gallery section
+  "gallery.badge": "Галерея",
+  "gallery.title": "Фотографии клиники",
+  "gallery.description": "Фотографии современной инфраструктуры и удобств ER Med Clinic.",
 };
 
 const translations = { az, en, ru };

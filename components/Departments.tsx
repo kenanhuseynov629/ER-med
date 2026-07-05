@@ -25,7 +25,6 @@ import {
   Thermometer,
 } from "lucide-react";
 import FadeInWhenVisible from "./FadeInWhenVisible";
-import { Department, getDepartments } from "@/lib/supabase";
 import { useLanguage } from "@/app/context/LanguageContext";
 
 const ICON_MAP: Record<string, LucideIcon> = {
@@ -50,6 +49,24 @@ const ICON_MAP: Record<string, LucideIcon> = {
   Sparkles,
 };
 
+// Types
+interface Department {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  created_at: string;
+}
+
+// LocalStorage functions
+const STORAGE_KEY = 'er_med_departments';
+
+function getDepartmentsFromStorage(): Department[] {
+  if (typeof window === 'undefined') return [];
+  const stored = localStorage.getItem(STORAGE_KEY);
+  return stored ? JSON.parse(stored) : [];
+}
+
 const DEFAULT_ICON = Stethoscope;
 
 export default function Departments() {
@@ -61,9 +78,9 @@ export default function Departments() {
     loadDepartments();
   }, []);
 
-  const loadDepartments = async () => {
+  const loadDepartments = () => {
     setLoading(true);
-    const data = await getDepartments();
+    const data = getDepartmentsFromStorage();
     setDepartments(data);
     setLoading(false);
   };

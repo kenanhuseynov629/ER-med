@@ -5,8 +5,26 @@ import { Loader2 } from "lucide-react";
 import { motion } from "framer-motion";
 import FadeInWhenVisible from "./FadeInWhenVisible";
 import DoctorModal from "./DoctorModal";
-import { Doctor, getDoctors } from "@/lib/supabase";
 import { useLanguage } from "@/app/context/LanguageContext";
+
+// Types
+interface Doctor {
+  id: string;
+  name: string;
+  specialty: string;
+  bio: string;
+  image_url: string | null;
+  created_at: string;
+}
+
+// LocalStorage functions
+const STORAGE_KEY = 'er_med_doctors';
+
+function getDoctorsFromStorage(): Doctor[] {
+  if (typeof window === 'undefined') return [];
+  const stored = localStorage.getItem(STORAGE_KEY);
+  return stored ? JSON.parse(stored) : [];
+}
 
 const GRADIENT_COLORS = [
   "from-blue-400 to-blue-600",
@@ -28,9 +46,9 @@ export default function Doctors() {
     loadDoctors();
   }, []);
 
-  const loadDoctors = async () => {
+  const loadDoctors = () => {
     setLoading(true);
-    const data = await getDoctors();
+    const data = getDoctorsFromStorage();
     setDoctors(data);
     setLoading(false);
   };

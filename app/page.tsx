@@ -6,6 +6,7 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import Stats from "@/components/Stats";
 import CareProcess from "@/components/CareProcess";
+import Gallery from "@/components/Gallery";
 
 // Dynamically import components that fetch from Supabase to avoid SSR issues
 const Departments = dynamic(() => import("@/components/Departments"), {
@@ -21,6 +22,7 @@ export default function Home() {
     <main className="min-h-screen">
       <Header />
       <Hero />
+      <Gallery />
       <div
         aria-hidden="true"
         className="h-14 md:h-20 bg-gradient-to-b from-slate-50 via-white to-white"

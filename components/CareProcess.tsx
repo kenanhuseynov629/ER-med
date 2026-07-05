@@ -2,44 +2,47 @@
 
 import { CalendarCheck, ClipboardList, HeartHandshake, PhoneCall } from "lucide-react";
 import FadeInWhenVisible from "./FadeInWhenVisible";
+import { useLanguage } from "@/app/context/LanguageContext";
 
-const steps = [
+const getSteps = (t: (key: string) => string) => [
   {
     icon: PhoneCall,
-    title: "Əlaqə və qeydiyyat",
-    description: "Klinika ilə əlaqə saxlayın, uyğun həkim və qəbul vaxtı seçilsin.",
+    title: t("careProcess.step1.title"),
+    description: t("careProcess.step1.desc"),
   },
   {
     icon: ClipboardList,
-    title: "Müayinə",
-    description: "Şikayətləriniz dinlənilir, ilkin baxış və lazımi analizlər təyin edilir.",
+    title: t("careProcess.step2.title"),
+    description: t("careProcess.step2.desc"),
   },
   {
     icon: HeartHandshake,
-    title: "Müalicə planı",
-    description: "Həkim nəticələri izah edir və sizin üçün aydın müalicə planı hazırlayır.",
+    title: t("careProcess.step3.title"),
+    description: t("careProcess.step3.desc"),
   },
   {
     icon: CalendarCheck,
-    title: "Nəzarət",
-    description: "Təkrar baxış və nəticələrin izlənməsi ilə proses diqqətdə saxlanılır.",
+    title: t("careProcess.step4.title"),
+    description: t("careProcess.step4.desc"),
   },
 ];
 
 export default function CareProcess() {
+  const { t } = useLanguage();
+  const steps = getSteps(t);
   return (
     <section className="premium-section bg-white">
       <div className="section-shell">
         <FadeInWhenVisible>
           <div className="max-w-3xl mb-12">
             <span className="inline-block bg-primary-50 text-navy px-4 py-2 rounded-full text-sm font-semibold mb-5 border border-primary-100">
-              Qəbul prosesi
+              {t("careProcess.badge")}
             </span>
             <h2 className="text-3xl md:text-5xl font-bold text-navy mb-4">
-              Klinikaya müraciət sadə və aydındır
+              {t("careProcess.title")}
             </h2>
             <p className="text-gray-600 text-lg">
-              Pasiyentin vaxtına hörmət edən, izahlı və rahat tibbi xidmət modeli.
+              {t("careProcess.description")}
             </p>
           </div>
         </FadeInWhenVisible>

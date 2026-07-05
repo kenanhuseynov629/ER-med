@@ -43,6 +43,8 @@ interface Doctor {
   bio: string;
   image_url: string | null;
   created_at: string;
+  education?: string;
+  experience?: string;
 }
 
 interface Department {
@@ -58,6 +60,8 @@ interface DoctorFormData {
   specialty: string;
   bio: string;
   image_url: string;
+  education?: string;
+  experience?: string;
 }
 
 interface DepartmentFormData {
@@ -100,287 +104,112 @@ const normalizeDepartmentIcon = (iconName: string): DepartmentIconName =>
 const getDepartmentIcon = (iconName: string) =>
   DEPARTMENT_ICON_MAP[normalizeDepartmentIcon(iconName)];
 
-// Supabase API functions (defined inline to avoid module import issues during build)
-
-// Client for read operations (uses anon key, respects RLS)
-const getSupabase = () => {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-  if (!supabaseUrl || !supabaseAnonKey) {
-    return null;
-  }
-
-  // Dynamic import to avoid SSR issues
-  const { createClient } = require('@supabase/supabase-js');
-  return createClient(supabaseUrl, supabaseAnonKey);
+// LocalStorage API functions
+const STORAGE_KEYS = {
+  DOCTORS: 'er_med_doctors',
+  DEPARTMENTS: 'er_med_departments',
 };
 
-// Admin client for write operations (uses service_role key, bypasses RLS)
-const getSupabaseAdmin = () => {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-  // Note: In production, consider using API routes instead of exposing service_role key
-  const serviceRoleKey = process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+function getDoctorsFromStorage(): Doctor[] {
+  if (typeof window === 'undefined') return [];
+  const stored = localStorage.getItem(STORAGE_KEYS.DOCTORS);
+  return stored ? JSON.parse(stored) : [];
+}
 
-  console.log('[Admin Client Debug] URL exists:', !!supabaseUrl);
-  console.log('[Admin Client Debug] Service Role Key exists:', !!serviceRoleKey);
-  console.log('[Admin Client Debug] Service Role Key length:', serviceRoleKey.length);
+function saveDoctorsToStorage(doctors: Doctor[]): void {
+  if (typeof window === 'undefined') return;
+  localStorage.setItem(STORAGE_KEYS.DOCTORS, JSON.stringify(doctors));
+}
 
-  // Show first/last 10 chars of key to verify it's correct
-  if (serviceRoleKey) {
-    console.log('[Admin Client Debug] Key starts with:', serviceRoleKey.substring(0, 10) + '...');
-    console.log('[Admin Client Debug] Key ends with:', '...' + serviceRoleKey.substring(serviceRoleKey.length - 10));
-  }
+function getDepartmentsFromStorage(): Department[] {
+  if (typeof window === 'undefined') return [];
+  const stored = localStorage.getItem(STORAGE_KEYS.DEPARTMENTS);
+  return stored ? JSON.parse(stored) : [];
+}
 
-  if (!supabaseUrl || !serviceRoleKey) {
-    console.warn('[Admin Client Debug] Service role key not configured. Admin operations will fail with RLS.');
-    return null;
-  }
+function saveDepartmentsToStorage(departments: Department[]): void {
+  if (typeof window === 'undefined') return;
+  localStorage.setItem(STORAGE_KEYS.DEPARTMENTS, JSON.stringify(departments));
+}
 
-  // Dynamic import to avoid SSR issues
-  const { createClient } = require('@supabase/supabase-js');
-  console.log('[Admin Client Debug] Creating admin client with service_role key...');
-  return createClient(supabaseUrl, serviceRoleKey, {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false,
-    },
+function createDoctor(doctor: Omit<Doctor, 'id' | 'created_at'>): Doctor {
+  const newDoctor: Doctor = {
+    ...doctor,
+    id: `doctor_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+    created_at: new Date().toISOString(),
+  };
+  const doctors = getDoctorsFromStorage();
+  doctors.unshift(newDoctor);
+  saveDoctorsToStorage(doctors);
+  return newDoctor;
+}
+
+function updateDoctor(id: string, updates: Partial<Omit<Doctor, 'id' | 'created_at'>>): Doctor | null {
+  const doctors = getDoctorsFromStorage();
+  const index = doctors.findIndex(d => d.id === id);
+  if (index === -1) return null;
+
+  doctors[index] = { ...doctors[index], ...updates };
+  saveDoctorsToStorage(doctors);
+  return doctors[index];
+}
+
+function deleteDoctor(id: string): boolean {
+  const doctors = getDoctorsFromStorage();
+  const filtered = doctors.filter(d => d.id !== id);
+  if (filtered.length === doctors.length) return false;
+  saveDoctorsToStorage(filtered);
+  return true;
+}
+
+function createDepartment(department: Omit<Department, 'id' | 'created_at'>): Department {
+  const newDepartment: Department = {
+    ...department,
+    id: `dept_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+    created_at: new Date().toISOString(),
+  };
+  const departments = getDepartmentsFromStorage();
+  departments.unshift(newDepartment);
+  saveDepartmentsToStorage(departments);
+  return newDepartment;
+}
+
+function updateDepartment(id: string, updates: Partial<Omit<Department, 'id' | 'created_at'>>): Department | null {
+  const departments = getDepartmentsFromStorage();
+  const index = departments.findIndex(d => d.id === id);
+  if (index === -1) return null;
+
+  departments[index] = { ...departments[index], ...updates };
+  saveDepartmentsToStorage(departments);
+  return departments[index];
+}
+
+function deleteDepartment(id: string): boolean {
+  const departments = getDepartmentsFromStorage();
+  const filtered = departments.filter(d => d.id !== id);
+  if (filtered.length === departments.length) return false;
+  saveDepartmentsToStorage(filtered);
+  return true;
+}
+
+function uploadDoctorImage(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      if (e.target?.result) {
+        resolve(e.target.result as string);
+      } else {
+        reject(new Error('Failed to read file'));
+      }
+    };
+    reader.onerror = () => reject(new Error('Failed to read file'));
+    reader.readAsDataURL(file);
   });
-};
-
-const isSupabaseConfigured = () => {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  return url && key && url !== 'your_supabase_project_url_here' && key !== 'your_supabase_anon_key_here';
-};
-
-const isAdminConfigured = () => {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceKeyPublic = process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY;
-  const serviceKeyServer = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  const serviceKey = serviceKeyPublic || serviceKeyServer;
-
-  // Debug logging to help diagnose env variable issues
-  console.log('[Admin Config Debug] NEXT_PUBLIC_SUPABASE_URL:', url ? '✓ SET' : '✗ MISSING');
-  console.log('[Admin Config Debug] NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY:', serviceKeyPublic ? `✓ SET (length: ${serviceKeyPublic.length})` : '✗ MISSING');
-  console.log('[Admin Config Debug] SUPABASE_SERVICE_ROLE_KEY (server):', serviceKeyServer ? `✓ SET (length: ${serviceKeyServer.length})` : '✗ MISSING');
-
-  const isValid = url && serviceKey &&
-    serviceKey !== 'your_supabase_service_role_key_here' &&
-    !serviceKey.includes('your_supabase');
-
-  console.log('[Admin Config Debug] isAdminConfigured:', isValid ? '✓ TRUE' : '✗ FALSE');
-
-  return isValid;
-};
-
-async function getDoctors(): Promise<Doctor[]> {
-  if (!isSupabaseConfigured()) return [];
-  const supabase = getSupabase();
-  if (!supabase) return [];
-
-  const { data, error } = await supabase
-    .from('doctors')
-    .select('*')
-    .order('created_at', { ascending: false });
-
-  if (error) {
-    console.error('Error fetching doctors:', error);
-    return [];
-  }
-  return data || [];
 }
 
-async function createDoctor(doctor: Omit<Doctor, 'id' | 'created_at'>): Promise<Doctor | null> {
-  if (!isAdminConfigured()) {
-    console.error('Admin not configured. Cannot create doctor.');
-    return null;
-  }
-  const supabase = getSupabaseAdmin();
-  if (!supabase) return null;
-
-  const { data, error } = await supabase
-    .from('doctors')
-    .insert([doctor])
-    .select()
-    .single();
-
-  if (error) {
-    console.error('Error creating doctor:', error);
-    return null;
-  }
-  return data;
-}
-
-async function updateDoctor(id: string, doctor: Partial<Omit<Doctor, 'id' | 'created_at'>>): Promise<Doctor | null> {
-  if (!isAdminConfigured()) {
-    console.error('Admin not configured. Cannot update doctor.');
-    return null;
-  }
-  const supabase = getSupabaseAdmin();
-  if (!supabase) return null;
-
-  const { data, error } = await supabase
-    .from('doctors')
-    .update(doctor)
-    .eq('id', id)
-    .select()
-    .single();
-
-  if (error) {
-    console.error('Error updating doctor:', error);
-    return null;
-  }
-  return data;
-}
-
-async function deleteDoctor(id: string): Promise<boolean> {
-  if (!isAdminConfigured()) {
-    console.error('Admin not configured. Cannot delete doctor.');
-    return false;
-  }
-  const supabase = getSupabaseAdmin();
-  if (!supabase) return false;
-
-  const { error } = await supabase
-    .from('doctors')
-    .delete()
-    .eq('id', id);
-
-  if (error) {
-    console.error('Error deleting doctor:', error);
-    return false;
-  }
-  return true;
-}
-
-async function getDepartments(): Promise<Department[]> {
-  if (!isSupabaseConfigured()) return [];
-  const supabase = getSupabase();
-  if (!supabase) return [];
-
-  const { data, error } = await supabase
-    .from('departments')
-    .select('*')
-    .order('created_at', { ascending: false });
-
-  if (error) {
-    console.error('Error fetching departments:', error);
-    return [];
-  }
-  return data || [];
-}
-
-async function createDepartment(department: Omit<Department, 'id' | 'created_at'>): Promise<Department | null> {
-  if (!isAdminConfigured()) {
-    console.error('Admin not configured. Cannot create department.');
-    return null;
-  }
-  const supabase = getSupabaseAdmin();
-  if (!supabase) return null;
-
-  const { data, error } = await supabase
-    .from('departments')
-    .insert([department])
-    .select()
-    .single();
-
-  if (error) {
-    console.error('Error creating department:', error);
-    return null;
-  }
-  return data;
-}
-
-async function updateDepartment(id: string, department: Partial<Omit<Department, 'id' | 'created_at'>>): Promise<Department | null> {
-  if (!isAdminConfigured()) {
-    console.error('Admin not configured. Cannot update department.');
-    return null;
-  }
-  const supabase = getSupabaseAdmin();
-  if (!supabase) return null;
-
-  const { data, error } = await supabase
-    .from('departments')
-    .update(department)
-    .eq('id', id)
-    .select()
-    .single();
-
-  if (error) {
-    console.error('Error updating department:', error);
-    return null;
-  }
-  return data;
-}
-
-async function deleteDepartment(id: string): Promise<boolean> {
-  if (!isAdminConfigured()) {
-    console.error('Admin not configured. Cannot delete department.');
-    return false;
-  }
-  const supabase = getSupabaseAdmin();
-  if (!supabase) return false;
-
-  const { error } = await supabase
-    .from('departments')
-    .delete()
-    .eq('id', id);
-
-  if (error) {
-    console.error('Error deleting department:', error);
-    return false;
-  }
-  return true;
-}
-
-async function uploadDoctorImage(file: File, doctorId: string): Promise<string | null> {
-  if (!isAdminConfigured()) {
-    console.error('Admin not configured. Cannot upload image.');
-    return null;
-  }
-  const supabase = getSupabaseAdmin();
-  if (!supabase) return null;
-
-  const fileExt = file.name.split('.').pop();
-  const fileName = `${doctorId}-${Date.now()}.${fileExt}`;
-  const filePath = `doctor-images/${fileName}`;
-
-  const { error: uploadError } = await supabase.storage
-    .from('doctor-images')
-    .upload(filePath, file);
-
-  if (uploadError) {
-    console.error('Error uploading image:', uploadError);
-    return null;
-  }
-
-  const { data: { publicUrl } } = supabase.storage
-    .from('doctor-images')
-    .getPublicUrl(filePath);
-
-  return publicUrl;
-}
-
-async function deleteDoctorImage(imageUrl: string): Promise<boolean> {
-  if (!isAdminConfigured()) {
-    console.error('Admin not configured. Cannot delete image.');
-    return false;
-  }
-  const supabase = getSupabaseAdmin();
-  if (!supabase) return false;
-
-  const pathMatch = imageUrl.match(/doctor-images\/[^?]+/);
-  if (!pathMatch) return false;
-
-  const { error } = await supabase.storage
-    .from('doctor-images')
-    .remove([pathMatch[0]]);
-
-  if (error) {
-    console.error('Error deleting image:', error);
-    return false;
-  }
+function deleteDoctorImage(): boolean {
+  // For localStorage, images are stored as base64 strings in the doctor object
+  // No separate storage to clean up
   return true;
 }
 
@@ -391,8 +220,6 @@ export default function AdminDashboardClient() {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [departments, setDepartments] = useState<Department[]>([]);
   const [loading, setLoading] = useState(true);
-  const [supabaseError, setSupabaseError] = useState(false);
-  const [adminConfigError, setAdminConfigError] = useState(false);
 
   // Modal states
   const [showDoctorModal, setShowDoctorModal] = useState(false);
@@ -406,6 +233,8 @@ export default function AdminDashboardClient() {
     specialty: "",
     bio: "",
     image_url: "",
+    education: "",
+    experience: "",
   });
   const [departmentForm, setDepartmentForm] = useState<DepartmentFormData>({
     name: "",
@@ -421,10 +250,6 @@ export default function AdminDashboardClient() {
     setMounted(true);
   }, []);
 
-  // Debug: log adminConfigError state changes
-  useEffect(() => {
-    console.log('[Admin Config Debug] adminConfigError state changed to:', adminConfigError);
-  }, [adminConfigError]);
 
   // Check authentication
   useEffect(() => {
@@ -438,41 +263,21 @@ export default function AdminDashboardClient() {
     checkAuth();
   }, [router, mounted]);
 
-  // Load data
+  // Load data from localStorage
   useEffect(() => {
     if (!mounted) return;
     loadData();
   }, [mounted]);
 
-  const loadData = async () => {
+  const loadData = () => {
     setLoading(true);
-    setSupabaseError(false);
-    setAdminConfigError(false);
-    console.log('[Admin Config Debug] loadData started, reset adminConfigError to false');
     try {
-      const [docs, depts] = await Promise.all([getDoctors(), getDepartments()]);
+      const docs = getDoctorsFromStorage();
+      const depts = getDepartmentsFromStorage();
       setDoctors(docs);
       setDepartments(depts);
-
-      const supabaseOk = isSupabaseConfigured();
-      const adminOk = isAdminConfigured();
-
-      console.log('[Admin Config Debug] isSupabaseConfigured:', supabaseOk);
-      console.log('[Admin Config Debug] isAdminConfigured:', adminOk);
-
-      if (!supabaseOk) {
-        console.log('[Admin Config Debug] Setting supabaseError to TRUE');
-        setSupabaseError(true);
-      }
-      if (!adminOk) {
-        console.log('[Admin Config Debug] Setting adminConfigError to TRUE');
-        setAdminConfigError(true);
-      } else {
-        console.log('[Admin Config Debug] Admin config OK, keeping adminConfigError as FALSE');
-      }
     } catch (error) {
       console.error('Error loading data:', error);
-      setSupabaseError(true);
     }
     setLoading(false);
   };
@@ -491,10 +296,12 @@ export default function AdminDashboardClient() {
         specialty: doctor.specialty,
         bio: doctor.bio,
         image_url: doctor.image_url || "",
+        education: doctor.education || "",
+        experience: doctor.experience || "",
       });
     } else {
       setEditingDoctor(null);
-      setDoctorForm({ name: "", specialty: "", bio: "", image_url: "" });
+      setDoctorForm({ name: "", specialty: "", bio: "", image_url: "", education: "", experience: "" });
     }
     setImageFile(null);
     setShowDoctorModal(true);
@@ -502,63 +309,51 @@ export default function AdminDashboardClient() {
 
   const handleDoctorSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isSupabaseConfigured()) {
-      alert("Supabase əvvəlcə quraşdırılmalıdır!");
-      return;
-    }
     setSubmitting(true);
 
     let imageUrl = doctorForm.image_url;
 
     if (imageFile) {
-      const tempId = editingDoctor?.id || "new";
-      const uploadedUrl = await uploadDoctorImage(imageFile, tempId);
-      if (uploadedUrl) {
-        imageUrl = uploadedUrl;
+      try {
+        const uploadedUrl = await uploadDoctorImage(imageFile);
+        if (uploadedUrl) {
+          imageUrl = uploadedUrl;
+        }
+      } catch (error) {
+        console.error('Error uploading image:', error);
+        alert('Şəkil yüklənərkən xəta baş verdi');
+        setSubmitting(false);
+        return;
       }
     }
 
     const doctorData = { ...doctorForm, image_url: imageUrl };
 
     if (editingDoctor) {
-      await updateDoctor(editingDoctor.id, doctorData);
+      updateDoctor(editingDoctor.id, doctorData);
     } else {
-      await createDoctor(doctorData);
+      createDoctor(doctorData);
     }
 
-    await loadData();
+    loadData();
     setShowDoctorModal(false);
     setSubmitting(false);
   };
 
-  const handleDeleteDoctor = async (doctor: Doctor) => {
+  const handleDeleteDoctor = (doctor: Doctor) => {
     if (!confirm(`"${doctor.name}" həkimini silmək istədiyinizə əminsiniz?`)) return;
-    if (!isSupabaseConfigured()) {
-      alert("Supabase əvvəlcə quraşdırılmalıdır!");
-      return;
-    }
-
-    if (doctor.image_url) {
-      await deleteDoctorImage(doctor.image_url);
-    }
-    await deleteDoctor(doctor.id);
-    await loadData();
+    deleteDoctor(doctor.id);
+    loadData();
   };
 
-  const handleDeleteDoctorImage = async () => {
+  const handleDeleteDoctorImage = () => {
     if (!doctorForm.image_url) return;
     if (!confirm("Həkimin şəklini silmək istədiyinizə əminsiniz?")) return;
 
-    // Delete from storage
-    const success = await deleteDoctorImage(doctorForm.image_url);
-    if (success || !isSupabaseConfigured()) {
-      // Clear image from form
-      setDoctorForm({ ...doctorForm, image_url: "" });
-      // If editing existing doctor, update in database too
-      if (editingDoctor) {
-        await updateDoctor(editingDoctor.id, { image_url: null });
-        await loadData();
-      }
+    setDoctorForm({ ...doctorForm, image_url: "" });
+    if (editingDoctor) {
+      updateDoctor(editingDoctor.id, { image_url: null });
+      loadData();
     }
   };
 
@@ -579,34 +374,25 @@ export default function AdminDashboardClient() {
     setShowDepartmentModal(true);
   };
 
-  const handleDepartmentSubmit = async (e: React.FormEvent) => {
+  const handleDepartmentSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isSupabaseConfigured()) {
-      alert("Supabase əvvəlcə quraşdırılmalıdır!");
-      return;
-    }
     setSubmitting(true);
 
     if (editingDepartment) {
-      await updateDepartment(editingDepartment.id, departmentForm);
+      updateDepartment(editingDepartment.id, departmentForm);
     } else {
-      await createDepartment(departmentForm);
+      createDepartment(departmentForm);
     }
 
-    await loadData();
+    loadData();
     setShowDepartmentModal(false);
     setSubmitting(false);
   };
 
-  const handleDeleteDepartment = async (department: Department) => {
+  const handleDeleteDepartment = (department: Department) => {
     if (!confirm(`"${department.name}" şöbəsini silmək istədiyinizə əminsiniz?`)) return;
-    if (!isSupabaseConfigured()) {
-      alert("Supabase əvvəlcə quraşdırılmalıdır!");
-      return;
-    }
-
-    await deleteDepartment(department.id);
-    await loadData();
+    deleteDepartment(department.id);
+    loadData();
   };
 
   if (!mounted) {
@@ -650,30 +436,6 @@ export default function AdminDashboardClient() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Supabase Error Warning */}
-        {supabaseError && (
-          <div className="mb-6 bg-yellow-50 border border-yellow-200 rounded-xl p-4">
-            <p className="text-yellow-800 font-medium">
-              ⚠️ Supabase əvvəlcə quraşdırılmalıdır!
-            </p>
-            <p className="text-yellow-700 text-sm mt-1">
-              Zəhmət olmasa .env.local faylında Supabase məlumatlarını daxil edin və cədvəlləri yaradın.
-            </p>
-          </div>
-        )}
-
-        {/* Admin Config Error Warning */}
-        {adminConfigError && !supabaseError && (
-          <div className="mb-6 bg-orange-50 border border-orange-200 rounded-xl p-4">
-            <p className="text-orange-800 font-medium">
-              ⚠️ Admin əməliyyatları üçün SERVICE_ROLE_KEY tələb olunur!
-            </p>
-            <p className="text-orange-700 text-sm mt-1">
-              Yazı əməliyyatları (əlavə, sil, redaktə) üçün SUPABASE_SERVICE_ROLE_KEY əlavə edilməlidir.
-              Məlumatları oxumaq işləyəcək, amma dəyişikliklər mümkün olmayacaq.
-            </p>
-          </div>
-        )}
 
         {/* Tabs */}
         <div className="flex space-x-4 mb-8">
@@ -784,7 +546,7 @@ export default function AdminDashboardClient() {
             </div>
             {doctors.length === 0 && (
               <div className="text-center py-12 text-gray-500">
-                {supabaseError ? "Supabase quraşdırıldıqdan sonra həkimlər əlavə edə bilərsiniz" : "Hələ heç bir həkim əlavə edilməyib"}
+                Hələ heç bir həkim əlavə edilməyib
               </div>
             )}
           </div>
@@ -851,7 +613,7 @@ export default function AdminDashboardClient() {
             </div>
             {departments.length === 0 && (
               <div className="text-center py-12 text-gray-500">
-                {supabaseError ? "Supabase quraşdırıldıqdan sonra şöbələr əlavə edə bilərsiniz" : "Hələ heç bir şöbə əlavə edilməyib"}
+                Hələ heç bir şöbə əlavə edilməyib
               </div>
             )}
           </div>
@@ -931,6 +693,36 @@ export default function AdminDashboardClient() {
                     className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-navy focus:ring-2 focus:ring-navy/20 outline-none"
                     rows={3}
                     placeholder="Qısa bioqrafiya və təcrübə"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Təhsil
+                  </label>
+                  <textarea
+                    value={doctorForm.education}
+                    onChange={(e) =>
+                      setDoctorForm({ ...doctorForm, education: e.target.value })
+                    }
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-navy focus:ring-2 focus:ring-navy/20 outline-none"
+                    rows={2}
+                    placeholder="Məs: Azərbaycan Tibb Universiteti, 2015"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Təcrübə
+                  </label>
+                  <textarea
+                    value={doctorForm.experience}
+                    onChange={(e) =>
+                      setDoctorForm({ ...doctorForm, experience: e.target.value })
+                    }
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-navy focus:ring-2 focus:ring-navy/20 outline-none"
+                    rows={2}
+                    placeholder="Məs: 5 il iş təcrübəsi"
                   />
                 </div>
 

@@ -12,20 +12,24 @@ import {
   Stethoscope,
 } from "lucide-react";
 import Image from "next/image";
+import { useLanguage } from "@/app/context/LanguageContext";
 
-const quickStats = [
-  { value: "09:00", label: "qəbul başlanır" },
-  { value: "6 gün", label: "iş qrafiki" },
-  { value: "Xaçmaz", label: "ünvan" },
+const getQuickStats = (t: (key: string) => string) => [
+  { value: "09:00", label: t("hero.quickStats.start") },
+  { value: "6 gün", label: t("hero.quickStats.schedule") },
+  { value: "Xaçmaz", label: t("hero.quickStats.location") },
 ];
 
-const carePoints = [
-  "Müasir diaqnostika",
-  "Ailə həkimi yanaşması",
-  "Rahat qəbul sistemi",
+const getCarePoints = (t: (key: string) => string) => [
+  t("hero.carePoints.modern"),
+  t("hero.carePoints.family"),
+  t("hero.carePoints.booking"),
 ];
 
 export default function Hero() {
+  const { t } = useLanguage();
+  const quickStats = getQuickStats(t);
+  const carePoints = getCarePoints(t);
   return (
     <section
       id="home"
@@ -49,17 +53,15 @@ export default function Hero() {
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <span className="w-2 h-2 bg-[#1A73E8] rounded-full mr-2 animate-pulse"></span>
-              ER Med Clinic - Xaçmaz
+              {t("hero.badge")}
             </motion.span>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-navy leading-tight">
-              Sağlamlığınız üçün{" "}
-              <span className="text-primary-600">etibarlı klinika</span>
+              {t("hero.title")}{" "}
+              <span className="text-primary-600">{t("hero.titleHighlight")}</span>
             </h1>
 
             <p className="text-lg text-gray-600 max-w-xl leading-relaxed">
-              ER Med Clinic müasir diaqnostika, təcrübəli həkim heyəti və
-              pasiyentə diqqətli yanaşma ilə ailənizin sağlamlığının yanında
-              dayanır.
+              {t("hero.description")}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3">
@@ -67,7 +69,7 @@ export default function Hero() {
                 href="#departments"
                 className="inline-flex items-center justify-center space-x-2 gradient-btn px-7 py-3.5 font-semibold group"
               >
-                <span>Xidmətlərə baxın</span>
+                <span>{t("hero.cta.services")}</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </a>
               <a
@@ -75,7 +77,7 @@ export default function Hero() {
                 className="inline-flex items-center justify-center gap-2 bg-white/90 text-navy border border-primary-200 px-7 py-3.5 rounded-2xl font-semibold hover:border-primary-500 transition-all duration-200 shadow-soft"
               >
                 <PhoneCall className="w-5 h-5 text-primary-600" />
-                <span>Qəbula yazılın</span>
+                <span>{t("hero.cta.contact")}</span>
               </a>
             </div>
 
@@ -127,7 +129,7 @@ export default function Hero() {
                     </div>
                     <div>
                       <p className="text-xl font-extrabold">ER Med Clinic</p>
-                      <p className="text-white/75 text-sm">Peşəkar tibbi xidmət</p>
+                      <p className="text-white/75 text-sm">{t("hero.card.professionalService")}</p>
                     </div>
                   </div>
                   <ShieldCheck className="w-8 h-8 text-white/80" />
@@ -138,18 +140,18 @@ export default function Hero() {
                     <div className="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center mb-4">
                       <Stethoscope className="w-6 h-6 text-primary-700" />
                     </div>
-                    <p className="font-bold text-navy">Həkim konsultasiyası</p>
+                    <p className="font-bold text-navy">{t("hero.card.consultation")}</p>
                     <p className="text-sm text-gray-600 mt-2">
-                      Admin paneldə aktiv olan həkim və şöbələr üzrə qəbul.
+                      {t("hero.card.consultationDesc")}
                     </p>
                   </div>
                   <div className="rounded-2xl bg-slate-50 border border-slate-200 p-5">
                     <div className="w-12 h-12 rounded-xl bg-green-50 flex items-center justify-center mb-4">
                       <HeartPulse className="w-6 h-6 text-green-600" />
                     </div>
-                    <p className="font-bold text-navy">Diaqnostika</p>
+                    <p className="font-bold text-navy">{t("hero.card.diagnosis")}</p>
                     <p className="text-sm text-gray-600 mt-2">
-                      Müayinə, laborator analiz və fərdi müalicə planı.
+                      {t("hero.card.diagnosisDesc")}
                     </p>
                   </div>
                 </div>
@@ -158,9 +160,9 @@ export default function Hero() {
                   <div className="flex items-start gap-4">
                     <CalendarCheck className="w-7 h-7 text-primary-200 shrink-0" />
                     <div>
-                      <p className="font-bold">Bu gün qəbul üçün əlaqə</p>
+                      <p className="font-bold">{t("hero.card.todayContact")}</p>
                       <p className="text-white/75 text-sm mt-1">
-                        Növbə və həkim seçimi üçün klinika ilə birbaşa danışın.
+                        {t("hero.card.todayContactDesc")}
                       </p>
                     </div>
                   </div>

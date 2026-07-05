@@ -37,10 +37,17 @@ const getAdvantages = (t: (key: string) => string) => [
   t("about.advantages.price"),
 ];
 
+const getAboutItems = (t: (key: string) => string) => [
+  { icon: Stethoscope, text: t("about.exam") },
+  { icon: Microscope, text: t("about.lab") },
+  { icon: ClipboardCheck, text: t("about.treatment") },
+];
+
 export default function About() {
   const { t } = useLanguage();
   const features = getFeatures(t);
   const advantages = getAdvantages(t);
+  const aboutItems = getAboutItems(t);
 
   return (
     <section id="about" className="premium-section bg-white scroll-mt-24">
@@ -54,19 +61,15 @@ export default function About() {
                   <div>
                     <div className="inline-flex items-center gap-2 rounded-full bg-primary-50 border border-primary-100 px-4 py-2 text-sm font-bold text-primary-700">
                       <HeartPulse className="w-4 h-4" />
-                      Klinik baxış
+                      {t("about.clinicView")}
                     </div>
                     <h3 className="mt-6 text-3xl font-extrabold text-navy">
-                      Dəqiq diaqnoz, aydın izah, düzgün yönləndirmə.
+                      {t("about.slogan")}
                     </h3>
                   </div>
 
                   <div className="space-y-3">
-                    {[
-                      { icon: Stethoscope, text: "İlkin müayinə və həkim konsultasiyası" },
-                      { icon: Microscope, text: "Laborator analiz və diaqnostik dəstək" },
-                      { icon: ClipboardCheck, text: "Müalicə planı və təkrar nəzarət" },
-                    ].map((item) => (
+                    {aboutItems.map((item) => (
                       <div
                         key={item.text}
                         className="flex items-center gap-3 rounded-2xl bg-white/85 border border-slate-200 p-4 shadow-soft"

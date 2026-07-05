@@ -2,8 +2,19 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { X, GraduationCap, Briefcase, Phone, ChevronDown } from "lucide-react";
-import { Doctor } from "@/lib/supabase";
 import { useEffect, useRef, useState } from "react";
+
+// Types
+interface Doctor {
+  id: string;
+  name: string;
+  specialty: string;
+  bio: string;
+  image_url: string | null;
+  created_at: string;
+  education?: string;
+  experience?: string;
+}
 
 interface DoctorModalProps {
   doctor: Doctor | null;
