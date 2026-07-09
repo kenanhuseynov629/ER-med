@@ -35,7 +35,51 @@ export default function Hero() {
       id="home"
       className="relative min-h-screen flex items-center pt-24 sm:pt-28 overflow-hidden"
     >
-      <div className="absolute inset-0 bg-[linear-gradient(135deg,#f8fafc_0%,#ffffff_45%,#e8f2ff_100%)] -z-10" />
+      {/* Animated Background */}
+      <div className="absolute inset-0 bg-[linear-gradient(135deg,#f8fafc_0%,#ffffff_45%,#e8f2ff_100%)] -z-10 animate-gradient-xy" />
+      
+      {/* Floating Background Shapes */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <motion.div 
+          animate={{ 
+            y: [0, -30, 0],
+            x: [0, 20, 0],
+            rotate: [0, 5, 0]
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-20 left-10 w-72 h-72 bg-primary-200/30 rounded-full blur-3xl"
+        />
+        <motion.div 
+          animate={{ 
+            y: [0, 40, 0],
+            x: [0, -20, 0],
+            rotate: [0, -5, 0]
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          className="absolute bottom-20 right-10 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl"
+        />
+        <motion.div 
+          animate={{ 
+            y: [0, -20, 0],
+            x: [0, 15, 0],
+            scale: [1, 1.1, 1]
+          }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          className="absolute top-1/2 left-1/3 w-48 h-48 bg-green-200/20 rounded-full blur-2xl"
+        />
+      </div>
+
+      {/* Grid Pattern Overlay */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+        style={{
+          backgroundImage: `
+            linear-gradient(#1A3A5C 1px, transparent 1px),
+            linear-gradient(90deg, #1A3A5C 1px, transparent 1px)
+          `,
+          backgroundSize: '50px 50px'
+        }}
+      />
+
       <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-white to-transparent pointer-events-none" />
 
       <div className="section-shell py-16 sm:py-20">
@@ -82,26 +126,39 @@ export default function Hero() {
             </div>
 
             <div className="grid grid-cols-3 gap-3 max-w-xl">
-              {quickStats.map((stat) => (
-                <div
+              {quickStats.map((stat, index) => (
+                <motion.div
                   key={stat.label}
-                  className="rounded-2xl bg-white/80 border border-slate-200 p-4 shadow-soft"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  className="rounded-2xl bg-white/80 border border-slate-200 p-4 shadow-soft hover:shadow-premium transition-all duration-300 cursor-default"
                 >
                   <p className="text-2xl font-extrabold text-navy">{stat.value}</p>
                   <p className="text-xs text-gray-500 mt-1">{stat.label}</p>
-                </div>
+                </motion.div>
               ))}
             </div>
 
             <div className="flex flex-wrap gap-3">
-              {carePoints.map((point) => (
-                <span
+              {carePoints.map((point, index) => (
+                <motion.span
                   key={point}
-                  className="inline-flex items-center gap-2 rounded-full bg-white/80 border border-slate-200 px-4 py-2 text-sm font-semibold text-gray-700"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.4, delay: 0.8 + index * 0.1 }}
+                  whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.95)" }}
+                  className="inline-flex items-center gap-2 rounded-full bg-white/80 border border-slate-200 px-4 py-2 text-sm font-semibold text-gray-700 cursor-default"
                 >
-                  <CheckCircle2 className="w-4 h-4 text-green-500" />
+                  <motion.div
+                    animate={{ scale: [1, 1.2, 1] }}
+                    transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
+                  >
+                    <CheckCircle2 className="w-4 h-4 text-green-500" />
+                  </motion.div>
                   {point}
-                </span>
+                </motion.span>
               ))}
             </div>
           </motion.div>

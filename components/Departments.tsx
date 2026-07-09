@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import FadeInWhenVisible from "./FadeInWhenVisible";
 import { useLanguage } from "@/app/context/LanguageContext";
+import { motion } from "framer-motion";
 
 const ICON_MAP: Record<string, LucideIcon> = {
   HeartPulse,
@@ -121,17 +122,24 @@ export default function Departments() {
               const IconComponent = getIconComponent(dept.icon);
               return (
                 <FadeInWhenVisible key={dept.id} delay={index * 0.1}>
-                  <div className="group h-full rounded-3xl p-6 sm:p-7 bg-white border border-slate-200 shadow-soft hover:shadow-premium hover:-translate-y-1 transition-all duration-300">
-                    <div className="w-14 h-14 bg-primary-50 rounded-2xl flex items-center justify-center mb-5 group-hover:bg-primary-500 transition-colors duration-300">
+                  <motion.div
+                    whileHover={{ scale: 1.05, y: -8 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="group h-full rounded-3xl p-6 sm:p-7 bg-white border border-slate-200 shadow-soft hover:shadow-premium transition-all duration-300 cursor-pointer"
+                  >
+                    <motion.div 
+                      whileHover={{ rotate: 5, scale: 1.1 }}
+                      className="w-14 h-14 bg-primary-50 rounded-2xl flex items-center justify-center mb-5 group-hover:bg-primary-500 transition-colors duration-300"
+                    >
                       <IconComponent className="w-7 h-7 stroke-[1.7] text-primary-700 group-hover:text-white transition-colors duration-300" />
-                    </div>
-                    <h3 className="text-xl font-bold text-navy mb-3">
+                    </motion.div>
+                    <h3 className="text-xl font-bold text-navy mb-3 group-hover:text-primary-700 transition-colors">
                       {dept.name}
                     </h3>
                     <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">
                       {dept.description}
                     </p>
-                  </div>
+                  </motion.div>
                 </FadeInWhenVisible>
               );
             })}

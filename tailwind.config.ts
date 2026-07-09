@@ -43,6 +43,15 @@ const config: Config = {
       animation: {
         "float-slow": "float 6s ease-in-out infinite",
         "pulse-slow": "pulse-slow 3s ease-in-out infinite",
+        "float-medium": "float 4s ease-in-out infinite",
+        "float-fast": "float 3s ease-in-out infinite",
+        "shimmer": "shimmer 2s linear infinite",
+        "gradient-x": "gradient-x 15s ease infinite",
+        "gradient-y": "gradient-y 15s ease infinite",
+        "gradient-xy": "gradient-xy 15s ease infinite",
+        "spin-slow": "spin 3s linear infinite",
+        "bounce-slow": "bounce 2s infinite",
+        "wiggle": "wiggle 1s ease-in-out infinite",
       },
       keyframes: {
         float: {
@@ -52,6 +61,44 @@ const config: Config = {
         "pulse-slow": {
           "0%, 100%": { opacity: "1", transform: "scale(1)" },
           "50%": { opacity: "0.85", transform: "scale(1.02)" },
+        },
+        shimmer: {
+          "0%": { backgroundPosition: "-1000px 0" },
+          "100%": { backgroundPosition: "1000px 0" },
+        },
+        "gradient-x": {
+          "0%, 100%": {
+            "background-size": "200% 200%",
+            "background-position": "left center"
+          },
+          "50%": {
+            "background-size": "200% 200%",
+            "background-position": "right center"
+          },
+        },
+        "gradient-y": {
+          "0%, 100%": {
+            "background-size": "200% 200%",
+            "background-position": "center top"
+          },
+          "50%": {
+            "background-size": "200% 200%",
+            "background-position": "center bottom"
+          },
+        },
+        "gradient-xy": {
+          "0%, 100%": {
+            "background-size": "400% 400%",
+            "background-position": "left center"
+          },
+          "50%": {
+            "background-size": "400% 400%",
+            "background-position": "right center"
+          },
+        },
+        wiggle: {
+          "0%, 100%": { transform: "rotate(-3deg)" },
+          "50%": { transform: "rotate(3deg)" },
         },
       },
     },

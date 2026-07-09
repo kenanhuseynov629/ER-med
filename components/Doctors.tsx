@@ -103,30 +103,38 @@ export default function Doctors() {
                     setSelectedDoctor(doctor);
                     setIsModalOpen(true);
                   }}
-                  whileHover={{ scale: 1.02, y: -5 }}
-                  whileTap={{ scale: 0.98 }}
-                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  whileHover={{ scale: 1.03, y: -10 }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
                   className="group glass-card rounded-3xl overflow-hidden border border-sand-200 hover:border-primary-300 hover:shadow-premium cursor-pointer bg-white/80 backdrop-blur-sm"
                 >
                   {doctor.image_url ? (
                     <div className="h-56 sm:h-64 overflow-hidden p-4 pb-0">
-                      <img
+                      <motion.img
                         src={doctor.image_url}
                         alt={doctor.name}
-                        className="w-full h-full object-cover rounded-2xl group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-cover rounded-2xl"
+                        whileHover={{ scale: 1.1 }}
+                        transition={{ duration: 0.4 }}
                       />
                     </div>
                   ) : (
                     <div className="h-56 sm:h-64 p-4 pb-0">
-                      <div
+                      <motion.div
                         className={`h-full w-full rounded-2xl bg-gradient-to-br ${getGradientColor(index)} flex items-center justify-center`}
+                        whileHover={{ scale: 1.05 }}
+                        transition={{ duration: 0.3 }}
                       >
-                        <div className="w-28 h-28 bg-white/20 rounded-full flex items-center justify-center">
+                        <motion.div 
+                          className="w-28 h-28 bg-white/20 rounded-full flex items-center justify-center"
+                          animate={{ rotate: [0, 5, -5, 0] }}
+                          transition={{ duration: 4, repeat: Infinity, delay: index * 0.5 }}
+                        >
                           <span className="text-4xl font-bold text-white">
                             {getInitials(doctor.name)}
                           </span>
-                        </div>
-                      </div>
+                        </motion.div>
+                      </motion.div>
                     </div>
                   )}
 

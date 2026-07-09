@@ -3,6 +3,7 @@
 import { CalendarCheck, ClipboardList, HeartHandshake, PhoneCall } from "lucide-react";
 import FadeInWhenVisible from "./FadeInWhenVisible";
 import { useLanguage } from "@/app/context/LanguageContext";
+import { motion } from "framer-motion";
 
 const getSteps = (t: (key: string) => string) => [
   {
@@ -50,18 +51,29 @@ export default function CareProcess() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {steps.map((step, index) => (
             <FadeInWhenVisible key={step.title} delay={index * 0.08}>
-              <div className="h-full rounded-3xl border border-slate-200 bg-slate-50/70 p-6">
+              <motion.div
+                whileHover={{ scale: 1.05, y: -8 }}
+                whileTap={{ scale: 0.98 }}
+                className="h-full rounded-3xl border border-slate-200 bg-slate-50/70 p-6 hover:shadow-premium transition-all duration-300 cursor-default"
+              >
                 <div className="flex items-center justify-between mb-6">
-                  <div className="w-12 h-12 rounded-2xl bg-white shadow-soft flex items-center justify-center">
+                  <motion.div 
+                    whileHover={{ rotate: 360, scale: 1.15 }}
+                    transition={{ duration: 0.6 }}
+                    className="w-12 h-12 rounded-2xl bg-white shadow-soft flex items-center justify-center"
+                  >
                     <step.icon className="w-6 h-6 text-primary-700 stroke-[1.7]" />
-                  </div>
-                  <span className="text-sm font-extrabold text-primary-600">
+                  </motion.div>
+                  <motion.span 
+                    whileHover={{ scale: 1.2, rotate: 10 }}
+                    className="text-sm font-extrabold text-primary-600"
+                  >
                     {String(index + 1).padStart(2, "0")}
-                  </span>
+                  </motion.span>
                 </div>
                 <h3 className="text-xl font-bold text-navy mb-3">{step.title}</h3>
                 <p className="text-gray-600 text-sm leading-relaxed">{step.description}</p>
-              </div>
+              </motion.div>
             </FadeInWhenVisible>
           ))}
         </div>

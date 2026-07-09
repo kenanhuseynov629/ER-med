@@ -88,15 +88,25 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center justify-center space-x-8 flex-1">
-            {navLinks.map((link) => (
-              <a
+            {navLinks.map((link, index) => (
+              <motion.a
                 key={link.key}
                 href={link.href}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.05 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 className="group relative text-gray-600 hover:text-primary-700 font-medium transition-colors duration-200"
               >
                 {t(link.key)}
-                <span className="absolute -bottom-1 left-0 h-0.5 w-0 rounded-full bg-primary-500 transition-all duration-300 group-hover:w-full" />
-              </a>
+                <motion.span 
+                  className="absolute -bottom-1 left-0 h-0.5 w-0 rounded-full bg-primary-500"
+                  initial={{ width: 0 }}
+                  whileHover={{ width: "100%" }}
+                  transition={{ duration: 0.3 }}
+                />
+              </motion.a>
             ))}
           </nav>
 
@@ -106,19 +116,39 @@ export default function Header() {
           </div>
 
           {/* Mobile Menu Button */}
-          <button
+          <motion.button
             className="md:hidden p-2 text-navy rounded-xl hover:bg-white/70 transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? "Menyunu bağla" : "Menyunu aç"}
             aria-expanded={isMobileMenuOpen}
             aria-controls="mobile-menu"
+            whileTap={{ scale: 0.9 }}
+            whileHover={{ scale: 1.1 }}
           >
-            {isMobileMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
-          </button>
+            <AnimatePresence mode="wait">
+              {isMobileMenuOpen ? (
+                <motion.div
+                  key="close"
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <X className="w-6 h-6" />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="menu"
+                  initial={{ rotate: 90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: -90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Menu className="w-6 h-6" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.button>
         </div>
       </div>
 
@@ -129,22 +159,31 @@ export default function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
             className="md:hidden bg-white/95 backdrop-blur-xl border-t border-white/50 shadow-soft max-h-[calc(100vh-5rem)] overflow-y-auto"
           >
             <nav id="mobile-menu" className="px-4 py-6 space-y-4">
-              {navLinks.map((link) => (
-                <a
+              {navLinks.map((link, index) => (
+                <motion.a
                   key={link.key}
                   href={link.href}
-                  className="block text-gray-600 hover:text-navy font-medium py-2"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.2, delay: index * 0.05 }}
+                  className="block text-gray-600 hover:text-navy font-medium py-2 hover:bg-slate-50 rounded-lg px-3 transition-colors"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {t(link.key)}
-                </a>
+                </motion.a>
               ))}
-              <div className="pt-4 border-t border-gray-100">
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.2, delay: 0.3 }}
+                className="pt-4 border-t border-gray-100"
+              >
                 <LanguageSwitcher />
-              </div>
+              </motion.div>
             </nav>
           </motion.div>
         )}
