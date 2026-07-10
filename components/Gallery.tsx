@@ -140,27 +140,17 @@ export default function Gallery() {
                 onDragEnd={handleDragEnd}
                 className="absolute inset-0 cursor-grab active:cursor-grabbing"
               >
-                <motion.div
-                  animate={{
-                    scale: [1, 1.1, 1],
-                  }}
-                  transition={{
-                    duration: 8,
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                    ease: "easeInOut"
-                  }}
-                  className="w-full h-full"
-                >
+                <div className="w-full h-full will-change-transform">
                   <Image
                     src={galleryImages[currentIndex].src}
                     alt={galleryImages[currentIndex].alt}
                     fill
                     className="object-cover"
                     priority
-                    sizes="100vw"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 80vw"
+                    quality={85}
                   />
-                </motion.div>
+                </div>
               </motion.div>
             </AnimatePresence>
 
@@ -241,7 +231,7 @@ export default function Gallery() {
                   setDirection(index > currentIndex ? 1 : -1);
                   setCurrentIndex(index);
                 }}
-                className={`relative aspect-[16/9] w-28 md:w-40 rounded-2xl overflow-hidden border-2 transition-all duration-300 ${index === currentIndex
+                className={`relative aspect-[16/9] w-28 md:w-40 rounded-2xl overflow-hidden border-2 transition-all duration-300 image-zoom-container ${index === currentIndex
                   ? "border-primary-500 shadow-2xl ring-4 ring-primary-500/20 scale-105"
                   : "border-transparent hover:border-gray-300 shadow-lg opacity-70 hover:opacity-100"
                   }`}
@@ -251,7 +241,8 @@ export default function Gallery() {
                   alt={image.alt}
                   fill
                   className="object-cover"
-                  sizes="150px"
+                  sizes="(max-width: 768px) 112px, 160px"
+                  quality={75}
                 />
                 {index === currentIndex && (
                   <motion.div
@@ -348,17 +339,7 @@ export default function Gallery() {
                   transition={{ duration: 0.6 }}
                   className="relative w-full h-full"
                 >
-                  <motion.div
-                    animate={{
-                      scale: [1, 1.05, 1],
-                    }}
-                    transition={{
-                      duration: 10,
-                      repeat: Infinity,
-                      repeatType: "reverse",
-                      ease: "easeInOut"
-                    }}
-                  >
+                  <div className="w-full h-full">
                     <Image
                       src={galleryImages[currentIndex].src}
                       alt={galleryImages[currentIndex].alt}
@@ -366,8 +347,9 @@ export default function Gallery() {
                       height={1080}
                       className="w-full h-full object-contain rounded-lg"
                       priority
+                      quality={90}
                     />
-                  </motion.div>
+                  </div>
                 </motion.div>
               </AnimatePresence>
             </motion.div>

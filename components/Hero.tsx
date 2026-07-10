@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll } from "framer-motion";
 import {
   ArrowRight,
   CalendarCheck,
@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useLanguage } from "@/app/context/LanguageContext";
+import { useMemo, useEffect, useRef } from "react";
 
 const getQuickStats = (t: (key: string) => string) => [
   { value: "09:00", label: t("hero.quickStats.start") },
@@ -28,49 +29,122 @@ const getCarePoints = (t: (key: string) => string) => [
 
 export default function Hero() {
   const { t } = useLanguage();
-  const quickStats = getQuickStats(t);
-  const carePoints = getCarePoints(t);
+  const quickStats = useMemo(() => getQuickStats(t), [t]);
+  const carePoints = useMemo(() => getCarePoints(t), [t]);
+  const { scrollY } = useScroll();
+  const particlesRef = useRef<HTMLDivElement>(null);
+
+  // Generate particles
+  const particles = useMemo(() => {
+    return Array.from({ length: 30 }, (_, i) => ({
+      id: i,
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      delay: `${Math.random() * 6}s`,
+      size: `${3 + Math.random() * 4}px`,
+    }));
+  }, []);
+
   return (
     <section
       id="home"
       className="relative min-h-screen flex items-center pt-24 sm:pt-28 overflow-hidden"
     >
       {/* Animated Background */}
-      <div className="absolute inset-0 bg-[linear-gradient(135deg,#f8fafc_0%,#ffffff_45%,#e8f2ff_100%)] -z-10 animate-gradient-xy" />
+      <div className="absolute inset-0 bg-[linear-gradient(135deg,#f8fafc_0%,#ffffff_45%,#e8f2ff_100%)] -z-10" />
       
-      {/* Floating Background Shapes */}
+      {/* ECG Heart Rate Animation */}
+      <svg 
+        className="absolute inset-0 w-full h-full pointer-events-none opacity-20"
+        viewBox="0 0 1200 400"
+        preserveAspectRatio="none"
+        style={{ zIndex: 0 }}
+      >
+        <motion.path
+          d="M0,200 L100,200 L120,200 L140,150 L160,250 L180,100 L200,300 L220,200 L300,200 L400,200 L420,200 L440,150 L460,250 L480,100 L500,300 L520,200 L600,200 L700,200 L720,200 L740,150 L760,250 L780,100 L800,300 L820,200 L900,200 L1000,200 L1020,200 L1040,150 L1060,250 L1080,100 L1100,300 L1120,200 L1200,200"
+          fill="none"
+          stroke="#1A73E8"
+          strokeWidth="3"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="ecg-animated"
+          initial={{ strokeDashoffset: 1000 }}
+          animate={{ strokeDashoffset: 0 }}
+          transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+        />
+      </svg>
+
+      {/* Particle Animation */}
+      <div ref={particlesRef} className="absolute inset-0 overflow-hidden pointer-events-none">
+        {particles.map((particle) => (
+          <motion.div
+            key={particle.id}
+            className="particle"
+            style={{
+              left: particle.left,
+              top: particle.top,
+              width: particle.size,
+              height: particle.size,
+            }}
+            animate={{
+              y: [0, -30, -10, -40, 0],
+              x: [0, 10, -5, 15, 0],
+              opacity: [0.3, 0.6, 0.4, 0.5, 0.3],
+            }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              delay: parseFloat(particle.delay),
+              ease: "easeInOut",
+            }}
+          />
+        ))}
+        {/* Connecting lines */}
+        <svg className="absolute inset-0 w-full h-full opacity-10">
+          {particles.slice(0, 15).map((particle, i) => (
+            <motion.line
+              key={`line-${i}`}
+              x1={parseFloat(particle.left)}
+              y1={parseFloat(particle.top)}
+              x2={parseFloat(particles[(i + 1) % particles.length].left)}
+              y2={parseFloat(particles[(i + 1) % particles.length].top)}
+              stroke="#1A73E8"
+              strokeWidth="1"
+              animate={{
+                opacity: [0.1, 0.3, 0.1],
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                delay: i * 0.2,
+              }}
+            />
+          ))}
+        </svg>
+      </div>
+
+      {/* Floating Background Shapes - Optimized with will-change */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div 
           animate={{ 
-            y: [0, -30, 0],
-            x: [0, 20, 0],
-            rotate: [0, 5, 0]
+            y: [0, -15, 0],
           }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-20 left-10 w-72 h-72 bg-primary-200/30 rounded-full blur-3xl"
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-20 left-10 w-72 h-72 bg-primary-200/20 rounded-full blur-3xl will-change-transform"
+          style={{ animationPlayState: scrollY.get() > 100 ? 'paused' : 'running' }}
         />
         <motion.div 
           animate={{ 
-            y: [0, 40, 0],
-            x: [0, -20, 0],
-            rotate: [0, -5, 0]
+            y: [0, 20, 0],
           }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          className="absolute bottom-20 right-10 w-96 h-96 bg-blue-200/30 rounded-full blur-3xl"
-        />
-        <motion.div 
-          animate={{ 
-            y: [0, -20, 0],
-            x: [0, 15, 0],
-            scale: [1, 1.1, 1]
-          }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          className="absolute top-1/2 left-1/3 w-48 h-48 bg-green-200/20 rounded-full blur-2xl"
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          className="absolute bottom-20 right-10 w-96 h-96 bg-blue-200/20 rounded-full blur-3xl will-change-transform"
+          style={{ animationPlayState: scrollY.get() > 100 ? 'paused' : 'running' }}
         />
       </div>
 
-      {/* Grid Pattern Overlay */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+      {/* Grid Pattern Overlay - Static */}
+      <div className="absolute inset-0 opacity-[0.02] pointer-events-none" 
         style={{
           backgroundImage: `
             linear-gradient(#1A3A5C 1px, transparent 1px),
@@ -111,7 +185,7 @@ export default function Hero() {
             <div className="flex flex-col sm:flex-row gap-3">
               <a
                 href="#departments"
-                className="inline-flex items-center justify-center space-x-2 gradient-btn px-7 py-3.5 font-semibold group"
+                className="pulse-button inline-flex items-center justify-center space-x-2 gradient-btn px-7 py-3.5 font-semibold group"
               >
                 <span>{t("hero.cta.services")}</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

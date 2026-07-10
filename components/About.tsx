@@ -12,6 +12,7 @@ import {
 import FadeInWhenVisible from "./FadeInWhenVisible";
 import { useLanguage } from "@/app/context/LanguageContext";
 import { motion } from "framer-motion";
+import { useMemo } from "react";
 
 const getFeatures = (t: (key: string) => string) => [
   {
@@ -46,9 +47,9 @@ const getAboutItems = (t: (key: string) => string) => [
 
 export default function About() {
   const { t } = useLanguage();
-  const features = getFeatures(t);
-  const advantages = getAdvantages(t);
-  const aboutItems = getAboutItems(t);
+  const features = useMemo(() => getFeatures(t), [t]);
+  const advantages = useMemo(() => getAdvantages(t), [t]);
+  const aboutItems = useMemo(() => getAboutItems(t), [t]);
 
   return (
     <section id="about" className="premium-section bg-white scroll-mt-24">
@@ -126,7 +127,7 @@ export default function About() {
                   <motion.div
                     whileHover={{ scale: 1.03, y: -5 }}
                     whileTap={{ scale: 0.98 }}
-                    className="flex items-start gap-4 p-4 rounded-2xl border border-slate-100 hover:border-primary-200 transition-colors bg-slate-50/70 hover:shadow-premium cursor-default"
+                    className="flex items-start gap-4 p-4 rounded-2xl border border-slate-100 hover:border-primary-200 transition-colors bg-slate-50/70 hover:shadow-premium cursor-default card-hover"
                   >
                     <motion.div 
                       whileHover={{ rotate: 5, scale: 1.1 }}

@@ -106,7 +106,7 @@ export default function Doctors() {
                   whileHover={{ scale: 1.03, y: -10 }}
                   whileTap={{ scale: 0.97 }}
                   transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="group glass-card rounded-3xl overflow-hidden border border-sand-200 hover:border-primary-300 hover:shadow-premium cursor-pointer bg-white/80 backdrop-blur-sm"
+                  className="group glass-card rounded-3xl overflow-hidden border border-sand-200 hover:border-primary-300 hover:shadow-premium cursor-pointer bg-white/80 backdrop-blur-sm will-change-transform card-hover"
                 >
                   {doctor.image_url ? (
                     <div className="h-56 sm:h-64 overflow-hidden p-4 pb-0">

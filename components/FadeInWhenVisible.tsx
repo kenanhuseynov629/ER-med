@@ -17,7 +17,7 @@ export default function FadeInWhenVisible({
   className = "",
 }: FadeInWhenVisibleProps) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const isInView = useInView(ref, { once: true, margin: "-50px", amount: 0.1 });
 
   const directions = {
     up: { y: 40, x: 0 },

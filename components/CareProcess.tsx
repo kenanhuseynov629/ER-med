@@ -4,6 +4,7 @@ import { CalendarCheck, ClipboardList, HeartHandshake, PhoneCall } from "lucide-
 import FadeInWhenVisible from "./FadeInWhenVisible";
 import { useLanguage } from "@/app/context/LanguageContext";
 import { motion } from "framer-motion";
+import { useMemo } from "react";
 
 const getSteps = (t: (key: string) => string) => [
   {
@@ -30,7 +31,7 @@ const getSteps = (t: (key: string) => string) => [
 
 export default function CareProcess() {
   const { t } = useLanguage();
-  const steps = getSteps(t);
+  const steps = useMemo(() => getSteps(t), [t]);
   return (
     <section className="premium-section bg-white">
       <div className="section-shell">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
@@ -21,10 +21,19 @@ export default function Header() {
   const { t } = useLanguage();
 
   useEffect(() => {
+    let ticking = false;
+    
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 20);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    window.addEventListener("scroll", handleScroll);
+    
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -54,15 +63,15 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
-        ? "bg-transparent py-2"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
+        ? "bg-white/95 backdrop-blur-xl py-2 shadow-lg"
         : "bg-transparent py-4"
         }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
-          className={`flex items-center justify-between transition-all duration-300 ${isScrolled
-            ? "h-16 px-5 rounded-2xl bg-white/90 backdrop-blur-xl border border-sand-200 shadow-soft"
+          className={`flex items-center justify-between transition-all duration-500 ${isScrolled
+            ? "h-16 px-5 rounded-2xl border border-sand-200"
             : "h-20 px-0"
             }`}
         >
