@@ -20,6 +20,7 @@ export default function RootLayout({
           name="google-site-verification"
           content="tQHbUPBMDaWVaESARky9H8vzWNeOO88HRgt6co2uzwY"
         />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href="/logo-new.png.jpeg" type="image/jpeg" />
       </head>
       <body className="font-sans">

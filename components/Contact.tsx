@@ -51,7 +51,7 @@ export default function Contact() {
     <section id="contact" className="premium-section bg-gradient-to-b from-sand-50 to-white">
       <div className="section-shell">
         <FadeInWhenVisible>
-          <div className="text-center max-w-3xl mx-auto mb-14">
+          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
             <span className="inline-block bg-sand-100 text-primary-700 px-4 py-2 rounded-full text-sm font-semibold mb-4 border border-sand-200">
               {t("contact.badge")}
             </span>

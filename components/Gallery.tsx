@@ -91,11 +91,11 @@ export default function Gallery() {
     <section id="gallery" className="premium-section bg-gradient-to-b from-white to-slate-50">
       <div className="section-shell">
         <FadeInWhenVisible>
-          <div className="text-center max-w-3xl mx-auto mb-12">
+          <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
             <span className="inline-block bg-primary-50 text-navy px-4 py-2 rounded-full text-sm font-semibold mb-5 border border-primary-100">
               {t("gallery.badge")}
             </span>
-            <h2 className="text-3xl md:text-5xl font-bold text-navy mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-navy mb-4">
               {t("gallery.title")}
             </h2>
             <p className="text-gray-600 text-lg">
@@ -108,7 +108,7 @@ export default function Gallery() {
         <div className="relative max-w-7xl mx-auto">
           <motion.div 
             ref={carouselRef}
-            className="relative aspect-[16/10] md:aspect-[21/10] rounded-3xl overflow-hidden shadow-2xl bg-slate-100"
+            className="relative aspect-[3/2] sm:aspect-[16/10] md:aspect-[21/10] rounded-3xl overflow-hidden shadow-2xl bg-slate-100"
             whileHover={{ scale: 1.01 }}
             transition={{ duration: 0.4 }}
           >
@@ -161,32 +161,32 @@ export default function Gallery() {
             <motion.button
               whileHover={{ scale: 1.15, backgroundColor: "rgba(255,255,255,0.95)" }}
               whileTap={{ scale: 0.9 }}
-              className="absolute left-4 top-1/2 -translate-y-1/2 w-14 h-14 bg-white/80 backdrop-blur-sm hover:bg-white rounded-2xl flex items-center justify-center shadow-xl transition-all duration-300 z-10"
+              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-14 sm:h-14 bg-white/80 backdrop-blur-sm hover:bg-white rounded-xl sm:rounded-2xl flex items-center justify-center shadow-xl transition-all duration-300 z-10"
               onClick={handlePrevious}
             >
-              <ChevronLeft className="w-7 h-7 text-navy" />
+              <ChevronLeft className="w-4 h-4 sm:w-7 sm:h-7 text-navy" />
             </motion.button>
 
             <motion.button
               whileHover={{ scale: 1.15, backgroundColor: "rgba(255,255,255,0.95)" }}
               whileTap={{ scale: 0.9 }}
-              className="absolute right-4 top-1/2 -translate-y-1/2 w-14 h-14 bg-white/80 backdrop-blur-sm hover:bg-white rounded-2xl flex items-center justify-center shadow-xl transition-all duration-300 z-10"
+              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-14 sm:h-14 bg-white/80 backdrop-blur-sm hover:bg-white rounded-xl sm:rounded-2xl flex items-center justify-center shadow-xl transition-all duration-300 z-10"
               onClick={handleNext}
             >
-              <ChevronRight className="w-7 h-7 text-navy" />
+              <ChevronRight className="w-4 h-4 sm:w-7 sm:h-7 text-navy" />
             </motion.button>
 
             {/* Play/Pause button */}
             <motion.button
               whileHover={{ scale: 1.15, backgroundColor: "rgba(255,255,255,0.95)" }}
               whileTap={{ scale: 0.9 }}
-              className="absolute bottom-6 right-6 w-14 h-14 bg-white/80 backdrop-blur-sm hover:bg-white rounded-2xl flex items-center justify-center shadow-xl transition-all duration-300 z-10"
+              className="absolute bottom-3 sm:bottom-6 right-3 sm:right-6 w-8 h-8 sm:w-14 sm:h-14 bg-white/80 backdrop-blur-sm hover:bg-white rounded-xl sm:rounded-2xl flex items-center justify-center shadow-xl transition-all duration-300 z-10"
               onClick={() => setIsPlaying((prev) => !prev)}
             >
               {isPlaying ? (
-                <Pause className="w-7 h-7 text-navy" />
+                <Pause className="w-4 h-4 sm:w-7 sm:h-7 text-navy" />
               ) : (
-                <Play className="w-7 h-7 text-navy" />
+                <Play className="w-4 h-4 sm:w-7 sm:h-7 text-navy" />
               )}
             </motion.button>
 
@@ -194,14 +194,14 @@ export default function Gallery() {
             <motion.button
               whileHover={{ scale: 1.15, backgroundColor: "rgba(255,255,255,0.95)" }}
               whileTap={{ scale: 0.9 }}
-              className="absolute bottom-6 right-24 w-14 h-14 bg-white/80 backdrop-blur-sm hover:bg-white rounded-2xl flex items-center justify-center shadow-xl transition-all duration-300 z-10"
+              className="absolute bottom-3 sm:bottom-6 right-12 sm:right-24 w-8 h-8 sm:w-14 sm:h-14 bg-white/80 backdrop-blur-sm hover:bg-white rounded-xl sm:rounded-2xl flex items-center justify-center shadow-xl transition-all duration-300 z-10"
               onClick={() => setIsFullscreen(true)}
             >
-              <Maximize2 className="w-7 h-7 text-navy" />
+              <Maximize2 className="w-4 h-4 sm:w-7 sm:h-7 text-navy" />
             </motion.button>
 
             {/* Dots indicator */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-10">
+            <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex gap-2 sm:gap-3 z-10">
               {galleryImages.map((_, index) => (
                 <motion.button
                   key={index}
@@ -221,7 +221,7 @@ export default function Gallery() {
           </motion.div>
 
           {/* Thumbnails */}
-          <div className="flex gap-4 mt-8 justify-center overflow-x-auto pb-2 px-4">
+          <div className="flex gap-2 sm:gap-4 mt-6 sm:mt-8 justify-center overflow-x-auto pb-2 px-2 sm:px-4 no-scrollbar">
             {galleryImages.map((image, index) => (
               <motion.button
                 key={index}
@@ -231,7 +231,7 @@ export default function Gallery() {
                   setDirection(index > currentIndex ? 1 : -1);
                   setCurrentIndex(index);
                 }}
-                className={`relative aspect-[16/9] w-28 md:w-40 rounded-2xl overflow-hidden border-2 transition-all duration-300 image-zoom-container ${index === currentIndex
+                className={`relative aspect-[16/9] w-24 sm:w-28 md:w-40 rounded-xl sm:rounded-2xl overflow-hidden border-2 transition-all duration-300 image-zoom-container flex-shrink-0 ${index === currentIndex
                   ? "border-primary-500 shadow-2xl ring-4 ring-primary-500/20 scale-105"
                   : "border-transparent hover:border-gray-300 shadow-lg opacity-70 hover:opacity-100"
                   }`}
@@ -241,7 +241,7 @@ export default function Gallery() {
                   alt={image.alt}
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 112px, 160px"
+                  sizes="(max-width: 640px) 80px, (max-width: 768px) 112px, 160px"
                   quality={75}
                 />
                 {index === currentIndex && (

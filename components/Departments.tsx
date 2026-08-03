@@ -94,7 +94,7 @@ export default function Departments() {
     <section id="departments" className="premium-section bg-white scroll-mt-24">
       <div className="section-shell">
         <FadeInWhenVisible>
-          <div className="text-center max-w-3xl mx-auto mb-14">
+          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
             <span className="inline-block bg-primary-50 text-navy px-4 py-2 rounded-full text-sm font-semibold mb-5 border border-primary-100">
               {t("departments.badge")}
             </span>
@@ -117,7 +117,7 @@ export default function Departments() {
             {t("departments.empty")}
           </div>
         ) : (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-7">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-7">
             {departments.map((dept, index) => {
               const IconComponent = getIconComponent(dept.icon);
               return (
@@ -125,15 +125,15 @@ export default function Departments() {
                   <motion.div
                     whileHover={{ scale: 1.05, y: -8 }}
                     whileTap={{ scale: 0.98 }}
-                    className="group h-full rounded-3xl p-6 sm:p-7 bg-white border border-slate-200 shadow-soft hover:shadow-premium transition-all duration-300 cursor-pointer will-change-transform card-hover"
+                    className="group h-full rounded-3xl p-4 sm:p-6 md:p-7 bg-white border border-slate-200 shadow-soft hover:shadow-premium transition-all duration-300 cursor-pointer will-change-transform card-hover"
                   >
                     <motion.div 
                       whileHover={{ rotate: 5, scale: 1.1 }}
-                      className="w-14 h-14 bg-primary-50 rounded-2xl flex items-center justify-center mb-5 group-hover:bg-primary-500 transition-colors duration-300 will-change-transform"
+                      className="w-12 h-12 sm:w-14 sm:h-14 bg-primary-50 rounded-2xl flex items-center justify-center mb-4 sm:mb-5 group-hover:bg-primary-500 transition-colors duration-300 will-change-transform"
                     >
-                      <IconComponent className="w-7 h-7 stroke-[1.7] text-primary-700 group-hover:text-white transition-colors duration-300" />
+                      <IconComponent className="w-6 h-6 sm:w-7 sm:h-7 stroke-[1.7] text-primary-700 group-hover:text-white transition-colors duration-300" />
                     </motion.div>
-                    <h3 className="text-xl font-bold text-navy mb-3 group-hover:text-primary-700 transition-colors">
+                    <h3 className="text-lg sm:text-xl font-bold text-navy mb-2 sm:mb-3 group-hover:text-primary-700 transition-colors">
                       {dept.name}
                     </h3>
                     <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">

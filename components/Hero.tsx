@@ -156,8 +156,8 @@ export default function Hero() {
 
       <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-white to-transparent pointer-events-none" />
 
-      <div className="section-shell py-16 sm:py-20">
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+      <div className="section-shell py-12 sm:py-16 md:py-20">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-14 items-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -185,21 +185,21 @@ export default function Hero() {
             <div className="flex flex-col sm:flex-row gap-3">
               <a
                 href="#departments"
-                className="pulse-button inline-flex items-center justify-center space-x-2 gradient-btn px-7 py-3.5 font-semibold group"
+                className="pulse-button inline-flex items-center justify-center space-x-2 gradient-btn px-5 sm:px-7 py-3 sm:py-3.5 font-semibold group"
               >
                 <span>{t("hero.cta.services")}</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
               </a>
               <a
                 href="tel:0777336633"
-                className="inline-flex items-center justify-center gap-2 bg-white/90 text-navy border border-primary-200 px-7 py-3.5 rounded-2xl font-semibold hover:border-primary-500 transition-all duration-200 shadow-soft"
+                className="inline-flex items-center justify-center gap-2 bg-white/90 text-navy border border-primary-200 px-5 sm:px-7 py-3 sm:py-3.5 rounded-2xl font-semibold hover:border-primary-500 transition-all duration-200 shadow-soft"
               >
-                <PhoneCall className="w-5 h-5 text-primary-600" />
+                <PhoneCall className="w-4 h-4 sm:w-5 sm:h-5 text-primary-600" />
                 <span>{t("hero.cta.contact")}</span>
               </a>
             </div>
 
-            <div className="grid grid-cols-3 gap-3 max-w-xl">
+            <div className="grid grid-cols-3 gap-2 sm:gap-3 max-w-xl">
               {quickStats.map((stat, index) => (
                 <motion.div
                   key={stat.label}
@@ -207,7 +207,7 @@ export default function Hero() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
                   whileHover={{ scale: 1.05, y: -5 }}
-                  className="rounded-2xl bg-white/80 border border-slate-200 p-4 shadow-soft hover:shadow-premium transition-all duration-300 cursor-default"
+                  className="rounded-2xl bg-white/80 border border-slate-200 p-3 sm:p-4 shadow-soft hover:shadow-premium transition-all duration-300 cursor-default"
                 >
                   <p className="text-2xl font-extrabold text-navy">{stat.value}</p>
                   <p className="text-xs text-gray-500 mt-1">{stat.label}</p>

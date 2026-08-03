@@ -67,7 +67,7 @@ export default function About() {
                   <div>
                     <motion.div 
                       whileHover={{ scale: 1.05 }}
-                      className="inline-flex items-center gap-2 rounded-full bg-primary-50 border border-primary-100 px-4 py-2 text-sm font-bold text-primary-700"
+                      className="inline-flex items-center gap-2 rounded-full bg-primary-50 border border-primary-100 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-bold text-primary-700"
                     >
                       <motion.div
                         animate={{ rotate: [0, 10, -10, 0] }}
@@ -91,12 +91,12 @@ export default function About() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.4, delay: index * 0.1 }}
                         whileHover={{ scale: 1.03, x: 5 }}
-                        className="flex items-center gap-3 rounded-2xl bg-white/85 border border-slate-200 p-4 shadow-soft hover:shadow-premium transition-all duration-300 cursor-default"
+                        className="flex items-center gap-2 sm:gap-3 rounded-2xl bg-white/85 border border-slate-200 p-3 sm:p-4 shadow-soft hover:shadow-premium transition-all duration-300 cursor-default"
                       >
-                        <div className="w-11 h-11 rounded-xl bg-slate-50 flex items-center justify-center">
-                          <item.icon className="w-5 h-5 text-primary-700" />
+                        <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-slate-50 flex items-center justify-center">
+                          <item.icon className="w-4 h-4 sm:w-5 sm:h-5 text-primary-700" />
                         </div>
-                        <p className="font-semibold text-navy text-sm">{item.text}</p>
+                        <p className="font-semibold text-navy text-xs sm:text-sm">{item.text}</p>
                       </motion.div>
                     ))}
                   </div>
@@ -109,7 +109,7 @@ export default function About() {
           {/* Right - Content */}
           <div>
             <FadeInWhenVisible>
-              <span className="inline-block bg-slate-50 text-navy px-4 py-2 rounded-full text-sm font-semibold mb-4 border border-slate-100">
+              <span className="inline-block bg-slate-50 text-navy px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold mb-3 sm:mb-4 border border-slate-100">
                 {t("about.badge")}
               </span>
               <h2 className="text-3xl md:text-5xl font-bold text-navy mb-6">
@@ -121,19 +121,19 @@ export default function About() {
             </FadeInWhenVisible>
 
             {/* Features Grid */}
-            <div className="grid sm:grid-cols-2 gap-4 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
               {features.map((feature, index) => (
                 <FadeInWhenVisible key={feature.title} delay={index * 0.1}>
                   <motion.div
                     whileHover={{ scale: 1.03, y: -5 }}
                     whileTap={{ scale: 0.98 }}
-                    className="flex items-start gap-4 p-4 rounded-2xl border border-slate-100 hover:border-primary-200 transition-colors bg-slate-50/70 hover:shadow-premium cursor-default card-hover"
+                    className="flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded-2xl border border-slate-100 hover:border-primary-200 transition-colors bg-slate-50/70 hover:shadow-premium cursor-default card-hover"
                   >
                     <motion.div 
                       whileHover={{ rotate: 5, scale: 1.1 }}
-                      className="w-12 h-12 bg-white rounded-xl flex items-center justify-center flex-shrink-0 shadow-soft"
+                      className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-xl flex items-center justify-center flex-shrink-0 shadow-soft"
                     >
-                      <feature.icon className="w-6 h-6 text-navy stroke-[1.7]" />
+                      <feature.icon className="w-5 h-5 sm:w-6 sm:h-6 text-navy stroke-[1.7]" />
                     </motion.div>
                     <div className="min-w-0">
                       <h3 className="font-bold text-navy mb-1">

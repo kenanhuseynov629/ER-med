@@ -169,7 +169,7 @@ export default function Header() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="md:hidden bg-white/95 backdrop-blur-xl border-t border-white/50 shadow-soft max-h-[calc(100vh-5rem)] overflow-y-auto"
+            className="md:hidden bg-white/95 backdrop-blur-xl border-t border-white/50 shadow-soft max-h-[calc(100vh-5rem)] overflow-y-auto no-scrollbar"
           >
             <nav id="mobile-menu" className="px-4 py-6 space-y-4">
               {navLinks.map((link, index) => (

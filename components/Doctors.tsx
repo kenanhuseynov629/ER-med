@@ -72,7 +72,7 @@ export default function Doctors() {
     >
       <div className="section-shell">
         <FadeInWhenVisible>
-          <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
             <span className="inline-block bg-sand-100 text-primary-700 px-4 py-2 rounded-full text-sm font-semibold mb-4 border border-sand-200">
               {t("doctors.badge")}
             </span>
@@ -95,7 +95,7 @@ export default function Doctors() {
             {t("doctors.empty")}
           </div>
         ) : (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {doctors.map((doctor, index) => (
               <FadeInWhenVisible key={doctor.id} delay={index * 0.1}>
                 <motion.div
