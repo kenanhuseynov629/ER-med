@@ -1,6 +1,6 @@
 "use client";
 
-import { Heart } from "lucide-react";
+import { Heart, MessageCircle } from "lucide-react";
 import { useLanguage } from "@/app/context/LanguageContext";
 import Image from "next/image";
 
@@ -30,6 +30,18 @@ export default function Footer() {
             <p className="text-white/50 text-xs sm:text-sm mb-3 sm:mb-4">
               {t("footer.copyright").replace("{year}", String(currentYear))}
             </p>
+            
+            {/* WhatsApp Link */}
+            <a
+              href="https://wa.me/994777336633"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full transition-colors mb-4 sm:mb-6"
+            >
+              <MessageCircle className="w-5 h-5" />
+              <span className="font-medium">077 7336633</span>
+            </a>
+            
             <p className="text-white/50 text-xs sm:text-sm">
               {t("footer.developed")}:{" "}
               <span className="text-white font-medium">Kənan Hüseynov</span>
